@@ -1,0 +1,26 @@
+AFONSO COMERCIAL — APP PWA
+
+Arquivos:
+- index.html
+- manifest.webmanifest
+- service-worker.js
+- icon-192.png / icon-512.png
+- mapa-territorio.jpeg
+
+PUBLICAR NO GITHUB PAGES
+1. Crie ou abra um repositório no GitHub.
+2. Envie TODOS os arquivos desta pasta para a raiz do repositório.
+3. Vá em Settings > Pages.
+4. Em Build and deployment, escolha Deploy from a branch.
+5. Branch: main / root.
+6. Salve e abra o endereço gerado.
+
+INSTALAR NO IPHONE
+1. Abra o endereço do GitHub Pages no Safari.
+2. Toque em Compartilhar.
+3. Toque em “Adicionar à Tela de Início”.
+4. Confirme.
+
+IMPORTANTE
+Os dados comerciais ficam salvos localmente no navegador/aparelho.
+Use Configurações > Exportar backup regularmente.
