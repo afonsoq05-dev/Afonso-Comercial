@@ -34,7 +34,7 @@
     .hero h2{font-size:24px;line-height:1.12;margin:8px 0}
     .hero p{color:var(--muted);margin:0;line-height:1.45}
     .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-    @media(min-width:700px){.grid.cols4{grid-template-columns:repeat(4,1fr)} .grid.cols3{grid-template-columns:repeat(3,1fr)}}
+    @media(min-width:700px){.grid.cols4{grid-template-columns:repeat(5,1fr)} .grid.cols3{grid-template-columns:repeat(3,1fr)}}
     .kpi{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px}
     .kpi .n{font-size:24px;font-weight:800}
     .kpi .l{font-size:12px;color:var(--muted);margin-top:4px}
@@ -94,7 +94,10 @@
 <header class="top">
   <div class="brand">
     <div><h1>AFONSO COMERCIAL</h1><small>Máquinas pesadas • Norte do Paraná</small></div>
-    <div class="pill" id="currentRegionPill">SEMANA 1</div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <div class="pill" id="currentRegionPill">SEMANA 1</div>
+      <button class="close" aria-label="Configurações" onclick="showSection('settings')">⚙</button>
+    </div>
   </div>
 </header>
 
@@ -107,6 +110,16 @@
       <div class="weekstrip" id="weekStrip"></div>
     </div>
     <div class="grid cols4" id="kpis"></div>
+    <div class="card" style="margin-top:12px">
+      <h3>🧭 Cobertura da região</h3>
+      <div class="muted" style="font-size:12px;margin-bottom:10px">Mostra onde você já tem carteira e onde precisa prospectar.</div>
+      <div id="coverageList"></div>
+    </div>
+    <div class="card">
+      <h3>🗓️ Rota sugerida da semana</h3>
+      <div class="muted" style="font-size:12px;margin-bottom:10px">Agrupamento base por proximidade. Oportunidade quente pode alterar a ordem.</div>
+      <div id="routePlan"></div>
+    </div>
     <div class="card" style="margin-top:12px">
       <h3>🎯 Radar — melhores contas para agir agora</h3>
       <div class="muted" style="font-size:12px;margin-bottom:10px">Prioriza região da semana, classe A, gatilho, follow-up vencido e oportunidade em andamento.</div>
@@ -140,8 +153,8 @@
 
   <section id="regions" class="section">
     <div class="card">
-      <h3>🔁 Ciclo comercial de 4 semanas</h3>
-      <p class="muted" style="font-size:13px">A semana define onde você concentra prospecção e manutenção de carteira. Leads quentes e negociações avançadas têm prioridade independente da região.</p>
+      <h3>🔁 Ciclo comercial — Semana 4 alternada A/B</h3>
+      <p class="muted" style="font-size:13px">Semanas 1, 2 e 3 se repetem todo mês. Na Semana 4, alterne entre 4-A e 4-B. Leads quentes e negociações avançadas têm prioridade independente da região.</p>
       <label>Definir semana atual</label>
       <select id="weekSelector" onchange="setWeek(this.value)"></select>
     </div>
@@ -171,6 +184,13 @@
           Importar backup<input id="importFile" type="file" accept=".json" hidden onchange="importBackup(event)">
         </label>
       </div>
+    </div>
+    <div class="card">
+      <h3>👥 Importar clientes</h3>
+      <p class="muted" style="font-size:13px">Importa e mescla sua base de clientes sem apagar visitas, prioridades, frota ou oportunidades já registradas.</p>
+      <label class="btn" style="display:inline-block;color:#111;margin:0">
+        Importar arquivo de clientes<input id="clientsImportFile" type="file" accept=".json" hidden onchange="importClients(event)">
+      </label>
     </div>
     <div class="card">
       <h3>📲 Instalar no iPhone</h3>
@@ -227,10 +247,11 @@
 </dialog>
 
 <script>
-const CONFIG = {"regions": {"R1": {"name": "Região 1 — Londrina / Cambé / Apucarana", "short": "Londrina", "focus": "Linha amarela • construção • indústria • locação • agro", "cities": ["Londrina", "Cambé", "Rolândia", "Arapongas", "Apucarana", "Ibiporã", "Jataizinho", "Tamarana", "Cambira", "Califórnia", "Rio Bom", "Marilândia do Sul", "Mauá da Serra", "Novo Itacolomi"]}, "R2": {"name": "Região 2 — Norte / Paranapanema", "short": "Paranapanema", "focus": "Agro • cooperativas • cerealistas • armazenagem • aviários", "cities": ["Porecatu", "Alvorada do Sul", "Primeiro de Maio", "Sertanópolis", "Bela Vista do Paraíso", "Florestópolis", "Centenário do Sul", "Miraselva", "Prado Ferreira", "Jaguapitã", "Sertaneja", "Rancho Alegre", "Leópolis"]}, "R3": {"name": "Região 3 — Cornélio Procópio", "short": "Cornélio", "focus": "Agro • obras • municípios • terraplanagem • armazenagem", "cities": ["Cornélio Procópio", "Uraí", "Assaí", "Santa Mariana", "Itambaracá", "Andirá", "Bandeirantes", "Santa Amélia", "Abatiá", "Nova Fátima", "Nova América da Colina", "São Sebastião da Amoreira", "Santa Cecília do Pavão", "Nova Santa Bárbara", "Santo Antônio do Paraíso", "Congonhinhas", "São Jerônimo da Serra"]}, "R4": {"name": "Região 4 — Norte Pioneiro", "short": "Norte Pioneiro", "focus": "Construção • pavimentação • agro • municípios • pedreira/mineração", "cities": ["Jacarezinho", "Santo Antônio da Platina", "Cambará", "Ribeirão Claro", "Ribeirão do Pinhal", "Carlópolis", "Joaquim Távora", "Guapirama", "Jundiaí do Sul", "Conselheiro Mairinck", "Quatiguá", "Jaboti", "Japira", "Tomazina", "Siqueira Campos", "Salto do Itararé", "Santana do Itararé", "Wenceslau Braz", "São José da Boa Vista", "Ibaiti", "Pinhalão", "Figueira", "Sapopema", "Curiúva", "Barra do Jacaré"]}}, "segments": ["Terraplanagem", "Pavimentação", "Construção", "Pedreira / Mineração", "Locação", "Concreteira", "Cooperativa / Cerealista / Armazenagem", "Agro / Fazenda", "Avicultura / Biomassa", "Governo / Município", "Florestal", "Outro"], "stages": ["Prospect", "Qualificado", "Diagnóstico", "Proposta", "Negociação", "Fechado ganho", "Fechado perdido"], "triggers": ["Nova obra / contrato", "Expansão", "Renovação de frota", "Máquina com 8–10 mil h", "Manutenção alta", "Aumento de frota", "Novo silo / armazém", "Ampliação de aviários", "Compra / expansão de fazenda", "Licitação / contrato público", "Terceirização cara", "Problema com concorrente", "Lead quente", "Crédito / financiamento disponível", "Outro"]};
+const CONFIG = {"regions": {"R1": {"name": "Região 1 — Londrina", "short": "Londrina", "label": "1", "focus": "Linha amarela • construção • indústria • locação • agro", "cities": ["Londrina", "Cambé", "Rolândia", "Arapongas", "Apucarana", "Ibiporã", "Jataizinho", "Tamarana", "Cambira", "Califórnia", "Rio Bom", "Marilândia do Sul", "Mauá da Serra", "Novo Itacolomi"], "route": [{"day": "Segunda", "cities": ["Londrina", "Cambé", "Ibiporã", "Jataizinho"]}, {"day": "Terça", "cities": ["Rolândia", "Arapongas"]}, {"day": "Quarta", "cities": ["Apucarana", "Cambira", "Novo Itacolomi", "Rio Bom"]}, {"day": "Quinta", "cities": ["Califórnia", "Marilândia do Sul", "Mauá da Serra"]}, {"day": "Sexta", "cities": ["Tamarana"], "note": "Retornos e oportunidades quentes"}]}, "R2": {"name": "Região 2 — Paranapanema", "short": "Paranapanema", "label": "2", "focus": "Agro • cooperativas • cerealistas • armazenagem • aviários", "cities": ["Porecatu", "Alvorada do Sul", "Primeiro de Maio", "Sertanópolis", "Bela Vista do Paraíso", "Florestópolis", "Centenário do Sul", "Miraselva", "Prado Ferreira", "Jaguapitã", "Sertaneja", "Rancho Alegre", "Leópolis"], "route": [{"day": "Segunda", "cities": ["Bela Vista do Paraíso", "Sertanópolis", "Primeiro de Maio"]}, {"day": "Terça", "cities": ["Alvorada do Sul", "Porecatu"]}, {"day": "Quarta", "cities": ["Florestópolis", "Centenário do Sul"]}, {"day": "Quinta", "cities": ["Miraselva", "Prado Ferreira", "Jaguapitã"]}, {"day": "Sexta", "cities": ["Sertaneja", "Rancho Alegre", "Leópolis"], "note": "Prospecção + follow-ups"}]}, "R3": {"name": "Região 3 — Cornélio", "short": "Cornélio", "label": "3", "focus": "Agro • obras • municípios • terraplanagem • armazenagem", "cities": ["Cornélio Procópio", "Uraí", "Assaí", "Santa Mariana", "Itambaracá", "Andirá", "Bandeirantes", "Santa Amélia", "Abatiá", "Nova Fátima", "Nova América da Colina", "São Sebastião da Amoreira", "Santa Cecília do Pavão", "Nova Santa Bárbara", "Santo Antônio do Paraíso", "Congonhinhas", "São Jerônimo da Serra"], "route": [{"day": "Segunda", "cities": ["Cornélio Procópio", "Uraí", "Assaí"]}, {"day": "Terça", "cities": ["Santa Mariana", "Itambaracá", "Andirá", "Bandeirantes"]}, {"day": "Quarta", "cities": ["Santa Amélia", "Abatiá", "Nova Fátima"]}, {"day": "Quinta", "cities": ["Nova América da Colina", "São Sebastião da Amoreira", "Santa Cecília do Pavão", "Nova Santa Bárbara"]}, {"day": "Sexta", "cities": ["Santo Antônio do Paraíso", "Congonhinhas", "São Jerônimo da Serra"], "note": "Follow-ups no final do dia"}]}, "R4A": {"name": "Região 4-A — Norte Pioneiro A", "short": "N. Pioneiro A", "label": "4-A", "focus": "Construção • pavimentação • agro • municípios • pedreira/mineração", "cities": ["Jacarezinho", "Cambará", "Ribeirão Claro", "Santo Antônio da Platina", "Ribeirão do Pinhal", "Barra do Jacaré", "Carlópolis", "Joaquim Távora", "Guapirama", "Jundiaí do Sul", "Conselheiro Mairinck", "Quatiguá"], "route": [{"day": "Segunda", "cities": ["Jacarezinho", "Cambará", "Ribeirão Claro"]}, {"day": "Terça", "cities": ["Santo Antônio da Platina", "Ribeirão do Pinhal", "Barra do Jacaré"]}, {"day": "Quarta", "cities": ["Carlópolis", "Joaquim Távora"]}, {"day": "Quinta", "cities": ["Guapirama", "Jundiaí do Sul", "Conselheiro Mairinck"]}, {"day": "Sexta", "cities": ["Quatiguá"], "note": "Retornos e oportunidades quentes"}]}, "R4B": {"name": "Região 4-B — Norte Pioneiro B", "short": "N. Pioneiro B", "label": "4-B", "focus": "Construção • pavimentação • agro • municípios • pedreira/mineração", "cities": ["Ibaiti", "Japira", "Jaboti", "Pinhalão", "Figueira", "Sapopema", "Curiúva", "Tomazina", "Siqueira Campos", "Wenceslau Braz", "São José da Boa Vista", "Salto do Itararé", "Santana do Itararé"], "route": [{"day": "Segunda", "cities": ["Ibaiti", "Japira", "Jaboti"]}, {"day": "Terça", "cities": ["Pinhalão", "Figueira", "Sapopema"]}, {"day": "Quarta", "cities": ["Curiúva", "Tomazina"]}, {"day": "Quinta", "cities": ["Siqueira Campos", "Wenceslau Braz", "São José da Boa Vista"]}, {"day": "Sexta", "cities": ["Salto do Itararé", "Santana do Itararé"], "note": "Retornos e oportunidades quentes"}]}}, "segments": ["Terraplanagem", "Pavimentação", "Construção", "Pedreira / Mineração", "Locação", "Concreteira", "Cooperativa / Cerealista / Armazenagem", "Agro / Fazenda", "Avicultura / Biomassa", "Governo / Município", "Florestal", "Outro"], "stages": ["Prospect", "Qualificado", "Diagnóstico", "Proposta", "Negociação", "Fechado ganho", "Fechado perdido"], "triggers": ["Nova obra / contrato", "Expansão", "Renovação de frota", "Máquina com 8–10 mil h", "Manutenção alta", "Aumento de frota", "Novo silo / armazém", "Ampliação de aviários", "Compra / expansão de fazenda", "Licitação / contrato público", "Terceirização cara", "Problema com concorrente", "Lead quente", "Crédito / financiamento disponível", "Outro"]};
+const REGION_ORDER=['R1','R2','R3','R4A','R4B'];
 const KEY = 'afonso_comercial_v1';
 const defaultState = {
-  week: 1,
+  weekKey: 'R1',
   accounts: [],
   goals: {
     visits: {label:'Visitas boas', target:18, value:0},
@@ -244,15 +265,37 @@ const defaultState = {
 let state = loadState();
 let filterRegion = 'ALL', filterPriority = 'ALL';
 
+function migrateState(s){
+  if(!s || typeof s!=='object') s={};
+  if(!s.weekKey){
+    const map={1:'R1',2:'R2',3:'R3',4:'R4A'};
+    s.weekKey=map[Number(s.week)]||'R1';
+  }
+  if(Array.isArray(s.accounts)){
+    s.accounts=s.accounts.map(a=>{
+      if(a.region==='R4'){
+        if(CONFIG.regions.R4A.cities.includes(a.city)) a.region='R4A';
+        else if(CONFIG.regions.R4B.cities.includes(a.city)) a.region='R4B';
+      }
+      return a;
+    });
+  } else s.accounts=[];
+  delete s.week;
+  return s;
+}
 function loadState(){
-  try { return Object.assign(structuredClone(defaultState), JSON.parse(localStorage.getItem(KEY)||'{}')); }
+  try {
+    const saved=migrateState(JSON.parse(localStorage.getItem(KEY)||'{}'));
+    return Object.assign(structuredClone(defaultState), saved);
+  }
   catch(e) { return structuredClone(defaultState); }
 }
 function persist(){localStorage.setItem(KEY,JSON.stringify(state)); renderAll();}
 function money(v){return Number(v||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0})}
 function todayISO(){const d=new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10)}
 function esc(s=''){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function currentRegionKey(){return 'R'+state.week}
+function normKey(s=''){return String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim()}
+function currentRegionKey(){return state.weekKey||'R1'}
 
 function showSection(id){
   document.querySelectorAll('.section').forEach(x=>x.classList.remove('active'));
@@ -263,14 +306,17 @@ function showSection(id){
   if(id==='today') renderToday();
   if(id==='pipeline') renderPipeline();
 }
-function setWeek(v){state.week=Number(v);persist();}
+function setWeek(v){state.weekKey=v;persist();}
 function renderHeader(){
-  const r=CONFIG.regions[currentRegionKey()];
-  document.getElementById('currentRegionPill').textContent='SEMANA '+state.week;
+  const key=currentRegionKey(), r=CONFIG.regions[key];
+  document.getElementById('currentRegionPill').textContent='SEMANA '+r.label;
   document.getElementById('heroRegion').textContent=r.name;
   document.getElementById('heroFocus').textContent=r.focus;
-  document.getElementById('weekSelector').value=state.week;
-  document.getElementById('weekStrip').innerHTML=[1,2,3,4].map(n=>`<div class="week ${n===state.week?'current':''}">S${n}<br><b>${CONFIG.regions['R'+n].short}</b></div>`).join('');
+  document.getElementById('weekSelector').value=key;
+  document.getElementById('weekStrip').innerHTML=REGION_ORDER.map(k=>{
+    const x=CONFIG.regions[k];
+    return `<div class="week ${k===key?'current':''}">S${x.label}<br><b>${x.short}</b></div>`;
+  }).join('');
 }
 function renderKPIs(){
   const open=state.accounts.filter(a=>!a.stage.startsWith('Fechado'));
@@ -291,6 +337,28 @@ function score(a){
   else if(['Qualificado','Diagnóstico'].includes(a.stage)) s+=12;
   if(Number(a.value)>=500000) s+=10;
   return s;
+}
+function renderCoverage(){
+  const r=CONFIG.regions[currentRegionKey()];
+  const counts={};
+  state.accounts.filter(a=>a.region===currentRegionKey()).forEach(a=>counts[a.city]=(counts[a.city]||0)+1);
+  const rows=r.cities.map(c=>({city:c,count:counts[c]||0}));
+  const withAccounts=rows.filter(x=>x.count>0).sort((a,b)=>b.count-a.count||a.city.localeCompare(b.city));
+  const empty=rows.filter(x=>x.count===0);
+  const el=document.getElementById('coverageList');
+  el.innerHTML=`<div class="cities">${withAccounts.map(x=>`<span class="city">${esc(x.city)} • <b>${x.count}</b></span>`).join('')}</div>`+
+    (empty.length?`<div class="divider"></div><div class="muted" style="font-size:12px;margin-bottom:6px">🎯 Sem cliente cadastrado — prospecção:</div><div class="cities">${empty.map(x=>`<span class="city">${esc(x.city)}</span>`).join('')}</div>`:'');
+}
+function renderRoutePlan(){
+  const r=CONFIG.regions[currentRegionKey()];
+  const counts={};
+  state.accounts.filter(a=>a.region===currentRegionKey()).forEach(a=>counts[a.city]=(counts[a.city]||0)+1);
+  const el=document.getElementById('routePlan');
+  el.innerHTML=(r.route||[]).map(d=>{
+    const total=d.cities.reduce((s,c)=>s+(counts[c]||0),0);
+    const cityHtml=d.cities.map(c=>`<span class="city">${esc(c)}${counts[c]?` • <b>${counts[c]}</b>`:' • prospecção'}</span>`).join('');
+    return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;gap:8px;font-size:13px;margin-bottom:6px"><b>${d.day}</b><span class="muted">${total} cliente(s)</span></div><div class="cities">${cityHtml}</div>${d.note?`<div class="muted" style="font-size:11px;margin-top:5px">${esc(d.note)}</div>`:''}</div>`;
+  }).join('');
 }
 function renderRadar(){
   const list=[...state.accounts].filter(a=>!a.stage.startsWith('Fechado')).sort((a,b)=>score(b)-score(a)).slice(0,7);
@@ -350,13 +418,15 @@ function renderToday(){
   el.innerHTML=list.length?list.map(a=>accountCard(a)).join(''):'<div class="empty">Nenhuma próxima ação programada.</div>';
 }
 function renderRegions(){
-  document.getElementById('regionsList').innerHTML=Object.entries(CONFIG.regions).map(([k,r],idx)=>`
-    <div class="card region-card">
-      <div class="account-head"><div><div class="account-title">Semana ${idx+1} — ${r.short}</div><div class="account-meta">${r.focus}</div></div>
-      <button class="btn secondary small" onclick="setWeek(${idx+1})">Usar agora</button></div>
+  document.getElementById('regionsList').innerHTML=REGION_ORDER.map(k=>{
+    const r=CONFIG.regions[k];
+    return `<div class="card region-card">
+      <div class="account-head"><div><div class="account-title">Semana ${r.label} — ${r.short}</div><div class="account-meta">${r.focus}</div></div>
+      <button class="btn secondary small" onclick="setWeek('${k}')">Usar agora</button></div>
       <div class="divider"></div>
       <div class="cities">${r.cities.map(c=>`<span class="city">${c}</span>`).join('')}</div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 function renderPipeline(){
   const open=state.accounts.filter(a=>!a.stage.startsWith('Fechado'));
@@ -378,7 +448,7 @@ function initFormOptions(){
   document.getElementById('segment').innerHTML=CONFIG.segments.map(x=>`<option>${x}</option>`).join('');
   document.getElementById('stage').innerHTML=CONFIG.stages.map(x=>`<option>${x}</option>`).join('');
   document.getElementById('trigger').innerHTML='<option value="">Sem gatilho definido</option>'+CONFIG.triggers.map(x=>`<option>${x}</option>`).join('');
-  document.getElementById('weekSelector').innerHTML=Object.entries(CONFIG.regions).map(([k,r],i)=>`<option value="${i+1}">Semana ${i+1} — ${r.short}</option>`).join('');
+  document.getElementById('weekSelector').innerHTML=REGION_ORDER.map(k=>{const r=CONFIG.regions[k];return `<option value="${k}">Semana ${r.label} — ${r.short}</option>`}).join('');
   populateCities();
 }
 function populateCities(selected=''){
@@ -436,12 +506,43 @@ function importBackup(ev){
   r.onload=()=>{try{state=JSON.parse(r.result);localStorage.setItem(KEY,JSON.stringify(state));renderAll();alert('Backup importado.')}catch(e){alert('Arquivo de backup inválido.')}};
   r.readAsText(f);
 }
+function importClients(ev){
+  const f=ev.target.files[0]; if(!f)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    try{
+      const payload=JSON.parse(reader.result);
+      if(payload.type!=='afonso_clients_v1' || !Array.isArray(payload.accounts)) throw new Error('Formato inválido');
+      let added=0, updated=0;
+      const index=new Map();
+      state.accounts.forEach((a,i)=>{
+        const k=a.cnpj?('cnpj:'+a.cnpj):('name:'+normKey(a.company)+'|'+normKey(a.city));
+        index.set(k,i);
+      });
+      payload.accounts.forEach(src=>{
+        const k=src.cnpj?('cnpj:'+src.cnpj):('name:'+normKey(src.company)+'|'+normKey(src.city));
+        if(index.has(k)){
+          const i=index.get(k), cur=state.accounts[i];
+          ['phone','notes','segment','region','city'].forEach(field=>{if(!cur[field] && src[field]) cur[field]=src[field]});
+          updated++;
+        }else{
+          state.accounts.push(src); index.set(k,state.accounts.length-1); added++;
+        }
+      });
+      localStorage.setItem(KEY,JSON.stringify(state));
+      renderAll();
+      alert(`${added} clientes adicionados e ${updated} cadastros encontrados/atualizados.`);
+    }catch(e){alert('Arquivo de clientes inválido. Use o arquivo de importação preparado para este app.');}
+    ev.target.value='';
+  };
+  reader.readAsText(f);
+}
 function resetApp(){
   if(confirm('Tem certeza? Isso apagará todas as contas e oportunidades deste aparelho.')){
     state=structuredClone(defaultState);localStorage.setItem(KEY,JSON.stringify(state));renderAll();
   }
 }
-function renderAll(){renderHeader();renderKPIs();renderRadar();renderGoals();renderAccounts();renderToday();renderRegions();renderPipeline();}
+function renderAll(){renderHeader();renderKPIs();renderCoverage();renderRoutePlan();renderRadar();renderGoals();renderAccounts();renderToday();renderRegions();renderPipeline();}
 initFormOptions(); renderAll();
 if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
 </script>
