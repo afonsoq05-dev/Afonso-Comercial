@@ -222,8 +222,8 @@
     <form id="accountForm" class="formgrid" onsubmit="saveAccount(event)">
       <input type="hidden" id="accountId">
       <div class="span2"><label>Empresa / propriedade *</label><input id="company" required></div>
-      <div><label>Região *</label><select id="region" required onchange="populateCities()"></select></div>
-      <div><label>Cidade *</label><select id="city" required></select></div>
+      <div><label>Região original</label><select id="region"></select></div>
+      <div><label for="city">Cidade *</label><input id="city" list="territoryCities" required><datalist id="territoryCities"></datalist></div>
       <div><label>Segmento *</label><select id="segment" required></select></div>
       <div><label>Prioridade</label><select id="priority"><option>A</option><option selected>B</option><option>C</option></select></div>
       <div><label>Contato principal</label><input id="contact"></div>
@@ -391,7 +391,7 @@ function setPriorityFilter(v){filterPriority=v;renderAccounts()}
 function accountCard(a,withScore=false){
   const r=CONFIG.regions[a.region]?.short||a.region;
   const due=a.nextDate?`<div class="due">Próxima: ${esc(a.nextAction||'follow-up')} • ${a.nextDate.split('-').reverse().join('/')}</div>`:'';
-  return `<div class="account" onclick="openAccount('${a.id}')">
+  return `<div class="account" onclick="openAccount(${esc(JSON.stringify(a.id))})">
     <div class="account-head">
       <div><div class="account-title">${esc(a.company)}</div><div class="account-meta">${esc(a.city)} • ${esc(a.segment)} • ${esc(r)}</div></div>
       <span class="badge ${a.priority}">${a.priority}</span>
@@ -479,7 +479,7 @@ function saveAccount(e){
   e.preventDefault();
   const id=document.getElementById('accountId').value||('a'+Date.now());
   const keys=['company','region','city','segment','priority','contact','role','phone','stage','value','trigger','nextAction','nextDate','fleet','intel','notes'];
-  const a={id};
+  const a={...state.accounts.find(x=>x.id===id),id};
   keys.forEach(k=>a[k]=document.getElementById(k).value);
   const i=state.accounts.findIndex(x=>x.id===id);
   if(i>=0) state.accounts[i]=a; else state.accounts.push(a);
@@ -546,5 +546,6 @@ function renderAll(){renderHeader();renderKPIs();renderCoverage();renderRoutePla
 initFormOptions(); renderAll();
 if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
 </script>
+<script src="elite-map.js"></script>
 </body>
 </html>
