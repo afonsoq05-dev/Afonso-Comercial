@@ -1,29 +1,21 @@
-AFONSO COMERCIAL — V2
+AFONSO COMERCIAL — V4
 
-NOVIDADES
-- Semana 4 dividida em 4-A e 4-B.
-- Cobertura por cidade: mostra quantos clientes existem e onde prospectar.
-- Rota sugerida de segunda a sexta com contagem de clientes por cidade.
-- Importação de clientes por arquivo JSON sem publicar a base no GitHub.
-- Migração automática de cadastros antigos da antiga Região 4.
-- Atualização do service worker para facilitar futuras atualizações.
-- Botão de configurações (engrenagem) no topo.
+NOVIDADE: CLIENTES POR CIDADE
+- Nova seção acessível por Contas > Por cidade.
+- Busca digitável por município, inclusive sem diferença entre maiúsculas e acentos.
+- Mostra total de clientes, Elite e prioridades A/B/C.
+- Informa automaticamente a região e o circuito da cidade.
+- Permite filtrar os resultados por prioridade e segmento.
+- Atalho para cadastrar um novo cliente já com a cidade preenchida.
+- A tela inicial também ganhou um atalho para a pesquisa.
 
-COMO ATUALIZAR
-1. Faça um backup no app atual antes de qualquer alteração.
-2. Substitua os arquivos do seu repositório pelos arquivos desta V2.
-3. Aguarde o GitHub Pages publicar.
-4. Abra o app no Safari. Se não atualizar imediatamente, feche e abra novamente.
-5. Toque na engrenagem > Importar clientes e selecione o arquivo Afonso_Clientes_Importacao.json.
+SEGURANÇA DOS DADOS
+- Os clientes continuam salvos somente no aparelho.
+- Esta atualização não publica a carteira no GitHub.
+- Faça backups regulares pelo menu de configurações.
 
-IMPORTANTE
-NÃO envie o arquivo Afonso_Clientes_Importacao.json para o GitHub.
-Ele contém sua base comercial e deve ficar somente no seu aparelho/computador.
-
-ROTA OFICIAL
-Semana 1 — Londrina
-Semana 2 — Paranapanema
-Semana 3 — Cornélio
-Semana 4-A — Norte Pioneiro A
-Semana 4-B — Norte Pioneiro B
-A Semana 4 alterna A/B entre os ciclos mensais.
+ATUALIZAÇÃO NO IPHONE
+1. Aguarde o GitHub Pages publicar a nova versão.
+2. Abra o aplicativo conectado à internet.
+3. Feche e abra novamente se a seção ainda não aparecer.
+4. Os cadastros existentes serão preservados.
