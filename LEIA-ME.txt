@@ -1,4 +1,14 @@
-AFONSO COMERCIAL — V4
+AFONSO COMERCIAL — V5
+
+MELHORIA: CONSULTA DE CNPJ
+- Validação dos dígitos antes da busca, inclusive para CNPJ alfanumérico.
+- Consulta automática em duas fontes públicas quando a primeira não responder.
+- Compatibilidade com o novo formato de CNPJ implantado em 2026.
+- Mensagens diferentes para CNPJ inválido, não encontrado, limite de consultas, demora e falta de internet.
+- Identificação da fonte que retornou os dados.
+- Formatação automática do CNPJ sem atrapalhar letras e números.
+- A localização por CEP continua sendo aproximada e deve ser conferida.
+
 
 NOVIDADE: CLIENTES POR CIDADE
 - Nova seção acessível por Contas > Por cidade.

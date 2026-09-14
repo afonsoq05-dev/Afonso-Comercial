@@ -1,4 +1,4 @@
-const CACHE='afonso-comercial-v4';
+const CACHE='afonso-comercial-v5';
 const ASSETS=['./','./index.html','./elite-map.js','./city-search.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./mapa-territorio.jpeg'];
 self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',e=>e.waitUntil(Promise.all([

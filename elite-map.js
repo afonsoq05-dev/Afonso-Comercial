@@ -141,23 +141,96 @@ $('cancelVisit').onclick=()=>visitDialog.close();
 $('visitForm').onsubmit=e=>{e.preventDefault();const date=$('visitDate').value,note=$('visitNote').value.trim(),id=$('accountId').value,a=state.accounts.find(a=>a.id===id);if(!a||!dateOK(date)||date>todayISO()||!note)return;
  const updated={...a,visits:[...(a.visits||[]),{id:crypto.randomUUID(),date,note}],lastVisit:dateOK(a.lastVisit)&&a.lastVisit>date?a.lastVisit:date};
  if(commit({...state,accounts:state.accounts.map(x=>x.id===id?updated:x)})){$('lastVisit').value=updated.lastVisit;$('visitHistory').textContent=updated.visits.map(v=>fmt(v.date)+' — '+v.note).join(' | ');visitDialog.close();}};
-async function fetchJSON(url){const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),15000);try{const r=await fetch(url,{signal:controller.signal,cache:'no-store'});if(!r.ok)throw Error('Consulta indisponível ('+r.status+').');return await r.json();}finally{clearTimeout(timer);}}
+function cleanCnpj(value){return String(value||'').replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,14);}
+function formatCnpj(value){const c=cleanCnpj(value);return c.length===14?c.slice(0,2)+'.'+c.slice(2,5)+'.'+c.slice(5,8)+'/'+c.slice(8,12)+'-'+c.slice(12):c;}
+function cnpjCheckDigit(base,weights){let sum=0;for(let i=0;i<weights.length;i++)sum+=(base.charCodeAt(i)-48)*weights[i];const rest=sum%11;return rest<2?0:11-rest;}
+function validCnpj(cnpj){
+ if(!/^[A-Z0-9]{12}\d{2}$/.test(cnpj)||/^([A-Z0-9])\1{13}$/.test(cnpj))return false;
+ const d1=cnpjCheckDigit(cnpj.slice(0,12),[5,4,3,2,9,8,7,6,5,4,3,2]);
+ const d2=cnpjCheckDigit(cnpj.slice(0,12)+d1,[6,5,4,3,2,9,8,7,6,5,4,3,2]);
+ return cnpj.slice(12)===String(d1)+String(d2);
+}
+$('cnpj').setAttribute('maxlength','18');$('cnpj').setAttribute('autocapitalize','characters');$('cnpj').setAttribute('spellcheck','false');
+$('cnpj').addEventListener('blur',()=>{const c=cleanCnpj($('cnpj').value);if(c)$('cnpj').value=formatCnpj(c);});
+async function fetchJSON(url,timeoutMs=15000){
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),timeoutMs);
+ try{
+  const r=await fetch(url,{signal:controller.signal,cache:'no-store',headers:{Accept:'application/json'}});
+  let data=null;try{data=await r.json();}catch(e){}
+  if(!r.ok){const err=Error(data?.message||data?.titulo||data?.detalhes||'Consulta indisponível ('+r.status+').');err.status=r.status;throw err;}
+  if(!data||typeof data!=='object')throw Error('A consulta retornou dados inválidos.');
+  return data;
+ }catch(e){
+  if(e.name==='AbortError'){const err=Error('A consulta demorou além do esperado.');err.code='TIMEOUT';throw err;}
+  throw e;
+ }finally{clearTimeout(timer);}
+}
+function normalizedBrasilApi(data){
+ return {source:'BrasilAPI',legalName:data.razao_social||'',company:data.nome_fantasia||data.razao_social||'',
+  address:[data.descricao_tipo_de_logradouro,data.logradouro,data.numero,data.complemento,data.bairro,data.municipio,data.uf,data.cep].filter(Boolean).join(', '),
+  postcode:String(data.cep||'').replace(/\D/g,''),cnae:[data.cnae_fiscal,data.cnae_fiscal_descricao].filter(Boolean).join(' — '),
+  email:data.email||'',phone:data.ddd_telefone_1||'',city:data.municipio||'',uf:data.uf||'',status:data.descricao_situacao_cadastral||''};
+}
+function normalizedCnpjWs(data){
+ const e=data.estabelecimento||{},activity=e.atividade_principal||{},city=e.cidade||{},stateInfo=e.estado||{};
+ return {source:'CNPJ.ws',legalName:data.razao_social||'',company:e.nome_fantasia||data.razao_social||'',
+  address:[e.tipo_logradouro,e.logradouro,e.numero,e.complemento,e.bairro,city.nome,stateInfo.sigla,e.cep].filter(Boolean).join(', '),
+  postcode:String(e.cep||'').replace(/\D/g,''),cnae:[activity.id,activity.descricao].filter(Boolean).join(' — '),
+  email:e.email||'',phone:[e.ddd1,e.telefone1].filter(Boolean).join(' '),city:city.nome||'',uf:stateInfo.sigla||'',status:e.situacao_cadastral||''};
+}
+async function fetchCompany(cnpj,session){
+ const brasil={name:'BrasilAPI',url:'https://brasilapi.com.br/api/cnpj/v1/'+encodeURIComponent(cnpj),normalize:normalizedBrasilApi};
+ const cnpjws={name:'CNPJ.ws',url:'https://publica.cnpj.ws/cnpj/'+encodeURIComponent(cnpj),normalize:normalizedCnpjWs};
+ const sources=/[A-Z]/.test(cnpj)?[cnpjws,brasil]:[brasil,cnpjws],errors=[];
+ for(let i=0;i<sources.length;i++){
+  if(session!==editSession||!$('accountDialog').open)throw Object.assign(Error('Consulta cancelada.'),{code:'CANCELLED'});
+  $('lookupStatus').textContent='Consultando dados cadastrais… tentativa '+(i+1)+' de '+sources.length+'.';
+  try{
+   const raw=await fetchJSON(sources[i].url,12000),company=sources[i].normalize(raw);
+   if(!company.legalName)throw Error('A base não retornou razão social.');
+   return company;
+  }catch(e){errors.push({source:sources[i].name,status:e.status,code:e.code,message:e.message});}
+ }
+ const err=Error('Não foi possível localizar este CNPJ.');
+ err.attempts=errors;throw err;
+}
+function lookupFailureMessage(err){
+ const attempts=err.attempts||[];
+ if(navigator.onLine===false)return 'Sem conexão com a internet. Conecte-se e tente novamente.';
+ if(attempts.length&&attempts.every(x=>x.status===404))return 'CNPJ não encontrado nas duas bases. Confira os 14 caracteres.';
+ if(attempts.some(x=>x.status===429))return 'Uma das bases limitou as consultas. Aguarde um minuto e tente novamente.';
+ if(attempts.some(x=>x.code==='TIMEOUT'))return 'As bases demoraram para responder. Confira a internet e tente novamente.';
+ return 'As duas bases de consulta estão indisponíveis agora. Você ainda pode preencher os dados manualmente.';
+}
 $('lookupCnpj').onclick=async()=>{
- if(lookupBusy)return;const cnpj=$('cnpj').value.replace(/[^a-z0-9]/gi,'').toUpperCase();if(!/^[A-Z0-9]{12}\d{2}$/.test(cnpj)){$('lookupStatus').textContent='Informe um CNPJ com 14 posições.';return;}
+ if(lookupBusy)return;const cnpj=cleanCnpj($('cnpj').value);$('cnpj').value=formatCnpj(cnpj);
+ if(!/^[A-Z0-9]{12}\d{2}$/.test(cnpj)){$('lookupStatus').textContent='Informe os 14 caracteres do CNPJ.';return;}
+ if(!validCnpj(cnpj)){$('lookupStatus').textContent='CNPJ inválido. Confira os caracteres e os dois dígitos finais.';return;}
  const session=editSession;lookupBusy=true;$('lookupCnpj').disabled=true;$('lookupStatus').textContent='Consultando dados cadastrais…';
- try{const data=await fetchJSON('https://brasilapi.com.br/api/cnpj/v1/'+encodeURIComponent(cnpj));if(session!==editSession||!$('accountDialog').open||$('cnpj').value.replace(/[^a-z0-9]/gi,'').toUpperCase()!==cnpj)return;if(!data.razao_social)throw Error('A consulta não retornou razão social.');
-  if(($('company').value||$('address').value)&&!confirm('Aplicar os dados cadastrais retornados? O endereço da visita e as anotações serão preservados.'))return;
-  $('legalName').value=data.razao_social;$('company').value=data.nome_fantasia||data.razao_social;
-  $('address').value=[data.descricao_tipo_de_logradouro,data.logradouro,data.numero,data.complemento,data.bairro,data.municipio,data.uf,data.cep].filter(Boolean).join(', ');
-  $('postcode').value=String(data.cep||'').replace(/\D/g,'');$('cnae').value=[data.cnae_fiscal,data.cnae_fiscal_descricao].filter(Boolean).join(' — ');
-  if(!$('email').value)$('email').value=data.email||'';if(!$('phone').value)$('phone').value=data.ddd_telefone_1||'';
-  $('city').value=allCities.find(c=>normKey(c)===normKey(data.municipio))||data.municipio||'';$('region').value=data.uf==='PR'?(originalRegion($('city').value)||'UNMAPPED'):'UNMAPPED';
-  if(data.uf!=='PR')$('city').value=(data.municipio||'')+' / '+(data.uf||'');refreshCircuitHint();$('lookupStatus').textContent='Dados preenchidos. Salve a conta para confirmar.';
+ try{
+  const data=await fetchCompany(cnpj,session);
+  if(session!==editSession||!$('accountDialog').open||cleanCnpj($('cnpj').value)!==cnpj)return;
+  if(($('company').value||$('address').value)&&!confirm('Aplicar os dados cadastrais encontrados? O endereço da visita e as anotações serão preservados.'))return;
+  $('legalName').value=data.legalName;$('company').value=data.company;
+  $('address').value=data.address;$('postcode').value=data.postcode;$('cnae').value=data.cnae;
+  if(!$('email').value)$('email').value=data.email;if(!$('phone').value)$('phone').value=data.phone;
+  $('city').value=allCities.find(c=>normKey(c)===normKey(data.city))||data.city||'';
+  $('region').value=data.uf==='PR'?(originalRegion($('city').value)||'UNMAPPED'):'UNMAPPED';
+  if(data.uf&&data.uf!=='PR')$('city').value=(data.city||'')+' / '+data.uf;
+  refreshCircuitHint();
+  $('lookupStatus').textContent='Dados encontrados via '+data.source+(data.status?' • situação: '+data.status:'')+'. Confira e salve.';
   if(!$('latitude').value&&!$('longitude').value&&!$('visitAddress').value&&/^\d{8}$/.test($('postcode').value)){
-   try{const requestedCep=$('postcode').value;const cep=await fetchJSON('https://brasilapi.com.br/api/cep/v2/'+requestedCep);if(session!==editSession||!$('accountDialog').open||$('postcode').value!==requestedCep||$('latitude').value||$('longitude').value||$('visitAddress').value)return;const p=cep.location?.coordinates||{};if(coords({latitude:p.latitude,longitude:p.longitude})){$('latitude').value=p.latitude;$('longitude').value=p.longitude;$('geoStatus').value='approximate';$('lookupStatus').textContent='Posição aproximada pelo CEP preenchida. Confira o pino; ele pode não indicar a entrada do cliente. Salve para aparecer no mapa.';}else $('lookupStatus').textContent='Dados preenchidos. Sem coordenadas para este CEP: ajuste o pino ou use GPS no cliente.';}catch(e){if(session===editSession)$('lookupStatus').textContent='Dados preenchidos. Não foi possível localizar o CEP; ajuste o pino ou use GPS.';}
+   try{
+    const requestedCep=$('postcode').value,cep=await fetchJSON('https://brasilapi.com.br/api/cep/v2/'+requestedCep);
+    if(session!==editSession||!$('accountDialog').open||$('postcode').value!==requestedCep||$('latitude').value||$('longitude').value||$('visitAddress').value)return;
+    const p=cep.location?.coordinates||{};
+    if(coords({latitude:p.latitude,longitude:p.longitude})){$('latitude').value=p.latitude;$('longitude').value=p.longitude;$('geoStatus').value='approximate';$('lookupStatus').textContent+=' Posição aproximada pelo CEP preenchida; confira o pino.';}
+    else $('lookupStatus').textContent+=' O CEP foi encontrado, mas sem coordenadas; ajuste o pino ou use o GPS.';
+   }catch(e){if(session===editSession)$('lookupStatus').textContent+=' Não foi possível localizar o CEP; ajuste o pino ou use o GPS.';}
   }
- }catch(e){if(session===editSession)$('lookupStatus').textContent='Não foi possível consultar agora. '+e.message+' Você pode preencher manualmente.';}
- finally{lookupBusy=false;$('lookupCnpj').disabled=false;}
+ }catch(e){
+  if(e.code!=='CANCELLED'&&session===editSession)$('lookupStatus').textContent=lookupFailureMessage(e);
+ }finally{lookupBusy=false;$('lookupCnpj').disabled=false;}
 };
 $('useGps').onclick=()=>{const session=editSession;if(!navigator.geolocation){alert('GPS indisponível.');return;}navigator.geolocation.getCurrentPosition(p=>{if(session!==editSession)return;$('latitude').value=p.coords.latitude;$('longitude').value=p.coords.longitude;$('geoStatus').value='gps';$('lookupStatus').textContent='GPS preenchido (precisão informada: '+Math.round(p.coords.accuracy)+' m). Salve a conta.';},()=>alert('Não foi possível obter sua localização. Confira a permissão do GPS.'),{enableHighAccuracy:true,timeout:15000});};
 async function loadLeaflet(){
