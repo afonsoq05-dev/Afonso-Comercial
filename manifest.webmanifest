@@ -3,9 +3,9 @@
   "short_name": "Afonso Comercial",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#0d0d0e",
-  "theme_color": "#111111",
-  "description": "Painel comercial de prospecção e gestão territorial para máquinas pesadas.",
+  "background_color": "#080b0f",
+  "theme_color": "#080b0f",
+  "description": "Painel comercial de rotas, prospecção e gestão territorial para máquinas pesadas.",
   "icons": [
     {
       "src": "icon-192.png",

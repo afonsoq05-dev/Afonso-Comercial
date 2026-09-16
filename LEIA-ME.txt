@@ -1,4 +1,19 @@
-AFONSO COMERCIAL — V5
+AFONSO COMERCIAL — V6
+
+NOVIDADE: TROCA PROGRAMADA DE REGIÕES
+- A tela inicial mostra a região ativa e a região da próxima semana.
+- É possível trocar as duas semanas, personalizar cada uma ou restaurar o ciclo original.
+- A troca não altera permanentemente a sequência oficial 1 → 2 → 3 → 4-A/4-B.
+- O motivo do ajuste fica registrado para lembrar por que a rota mudou.
+- Ao virar a semana, o aplicativo assume automaticamente a região já planejada.
+- A troca excepcional de 16/09 adianta a Semana 1 e leva a Semana 4-B para 21–25/09, quando o cliente terá retornado.
+
+INTERFACE PROFISSIONAL
+- Novo visual com leitura mais clara no iPhone, cartões, contraste e espaçamento melhorados.
+- Ícones vetoriais consistentes no menu e nas ações principais.
+- Atalhos na tela inicial para nova conta, busca por cidade, agenda e troca de região.
+- Prévia dos três próximos compromissos diretamente na tela inicial.
+- Navegação inferior redesenhada e otimizada para toque.
 
 MELHORIA: CONSULTA DE CNPJ
 - Validação dos dígitos antes da busca, inclusive para CNPJ alfanumérico.
