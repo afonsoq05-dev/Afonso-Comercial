@@ -1,46 +1,44 @@
-AFONSO COMERCIAL — V6
+AFONSO COMERCIAL — V7
 
-NOVIDADE: TROCA PROGRAMADA DE REGIÕES
-- A tela inicial mostra a região ativa e a região da próxima semana.
-- É possível trocar as duas semanas, personalizar cada uma ou restaurar o ciclo original.
-- A troca não altera permanentemente a sequência oficial 1 → 2 → 3 → 4-A/4-B.
-- O motivo do ajuste fica registrado para lembrar por que a rota mudou.
-- Ao virar a semana, o aplicativo assume automaticamente a região já planejada.
-- A troca excepcional de 16/09 adianta a Semana 1 e leva a Semana 4-B para 21–25/09, quando o cliente terá retornado.
+AGENDA INTELIGENTE
+- A seção Ações agora separa retornos vencidos, de hoje, dos próximos 7 dias e posteriores.
+- Cada ação pode ser concluída ou adiada por 1, 3 ou 7 dias sem abrir o cadastro.
+- Ao concluir, o próximo retorno pode ser recriado automaticamente em 7, 15 ou 30 dias.
+- Cada cliente pode ter sua própria recorrência e antecedência de aviso.
+- A barra inferior mostra quantos retornos estão vencidos ou marcados para hoje.
 
-INTERFACE PROFISSIONAL
-- Novo visual com leitura mais clara no iPhone, cartões, contraste e espaçamento melhorados.
-- Ícones vetoriais consistentes no menu e nas ações principais.
-- Atalhos na tela inicial para nova conta, busca por cidade, agenda e troca de região.
-- Prévia dos três próximos compromissos diretamente na tela inicial.
-- Navegação inferior redesenhada e otimizada para toque.
+RESUMO COMERCIAL
+- A tela inicial exibe um resumo diário com vencidos, ações de hoje, próximos 7 dias e prioridades da região atual.
+- A priorização considera prazo, região da semana, classe A/B, estágio, cliente Elite, gatilho e valor potencial.
+- O cálculo acontece no próprio aparelho; a carteira não é enviada para um serviço de inteligência artificial.
 
-MELHORIA: CONSULTA DE CNPJ
-- Validação dos dígitos antes da busca, inclusive para CNPJ alfanumérico.
-- Consulta automática em duas fontes públicas quando a primeira não responder.
-- Compatibilidade com o novo formato de CNPJ implantado em 2026.
-- Mensagens diferentes para CNPJ inválido, não encontrado, limite de consultas, demora e falta de internet.
-- Identificação da fonte que retornou os dados.
-- Formatação automática do CNPJ sem atrapalhar letras e números.
-- A localização por CEP continua sendo aproximada e deve ser conferida.
+NOTIFICAÇÕES NO IPHONE
+- Em Configurações, escolha a recorrência padrão, a antecedência e o horário dos avisos.
+- O modo discreto oculta o nome do cliente na tela bloqueada.
+- É possível testar, pausar e reativar os lembretes quando quiser.
+- No iPhone, instale o aplicativo pela opção Safari > Compartilhar > Adicionar à Tela de Início antes de ativar as notificações.
+- Os avisos em segundo plano podem chegar com o aplicativo fechado.
 
-
-NOVIDADE: CLIENTES POR CIDADE
-- Nova seção acessível por Contas > Por cidade.
-- Busca digitável por município, inclusive sem diferença entre maiúsculas e acentos.
-- Mostra total de clientes, Elite e prioridades A/B/C.
-- Informa automaticamente a região e o circuito da cidade.
-- Permite filtrar os resultados por prioridade e segmento.
-- Atalho para cadastrar um novo cliente já com a cidade preenchida.
-- A tela inicial também ganhou um atalho para a pesquisa.
-
-SEGURANÇA DOS DADOS
-- Os clientes continuam salvos somente no aparelho.
-- Esta atualização não publica a carteira no GitHub.
+PRIVACIDADE E SEGURANÇA
+- Os cadastros completos continuam salvos somente no aparelho.
+- Para notificações em segundo plano são sincronizados apenas um identificador protegido, a data, o texto escolhido para o aviso e a assinatura técnica do aparelho.
+- Segredos do servidor não ficam no código público nem no navegador.
+- O arquivo de backup não leva a credencial técnica das notificações; ao restaurar em outro aparelho, basta reativá-las.
 - Faça backups regulares pelo menu de configurações.
+
+PLANEJAMENTO DE REGIÕES DA V6
+- A tela inicial mostra a região ativa e a região da próxima semana.
+- É possível trocar semanas, personalizar cada uma ou restaurar o ciclo original.
+- A troca não altera permanentemente a sequência oficial 1 → 2 → 3 → 4-A/4-B.
+- O motivo do ajuste fica registrado e, ao virar a semana, o aplicativo assume a região já planejada.
+
+OUTRAS FUNÇÕES PRESERVADAS
+- Consulta e validação de CNPJ em duas fontes públicas.
+- Clientes por cidade, filtros, clientes Elite, visitas quinzenais e mapa.
+- Interface otimizada para iPhone e funcionamento offline após a primeira abertura.
 
 ATUALIZAÇÃO NO IPHONE
 1. Aguarde o GitHub Pages publicar a nova versão.
 2. Abra o aplicativo conectado à internet.
-3. Feche e abra novamente se a seção ainda não aparecer.
-4. Os cadastros existentes serão preservados.
+3. Feche e abra novamente se a V7 ainda não aparecer.
+4. Seus cadastros existentes serão migrados e preservados automaticamente.

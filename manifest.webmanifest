@@ -1,11 +1,15 @@
 {
   "name": "Afonso Comercial — Norte do Paraná",
   "short_name": "Afonso Comercial",
+  "id": "./",
   "start_url": "./",
+  "scope": "./",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
   "background_color": "#080b0f",
   "theme_color": "#080b0f",
-  "description": "Painel comercial de rotas, prospecção e gestão territorial para máquinas pesadas.",
+  "lang": "pt-BR",
+  "description": "Agenda inteligente, lembretes, rotas, prospecção e gestão territorial para máquinas pesadas.",
   "icons": [
     {
       "src": "icon-192.png",
@@ -16,6 +20,14 @@
       "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Agenda inteligente",
+      "short_name": "Agenda",
+      "url": "./?agenda=1",
+      "icons": [{"src": "icon-192.png", "sizes": "192x192", "type": "image/png"}]
     }
   ]
 }

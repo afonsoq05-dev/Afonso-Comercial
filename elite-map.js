@@ -85,6 +85,12 @@ saveAccount=function(e){
  const id=$('accountId').value||crypto.randomUUID(),old=state.accounts.find(a=>a.id===id),a={...old,id};
   for(const k of ['company','region','city','segment','priority','contact','role','phone','stage','value','trigger','nextAction','nextDate','fleet','intel','notes',...EXTRA])a[k]=$(k).value.trim();
  a.elite=$('eliteFlag').checked;a.visits=a.visits||[];
+ if($('reminderEnabled'))a.reminder={
+  ...(a.reminder||{}),
+  enabled:$('reminderEnabled').checked,
+  cadenceDays:Number($('reminderCadence').value),
+  leadDays:Number($('reminderLeadDays').value)
+ };
  if(a.elite&&!a.eliteReason){alert('Informe o motivo para acompanhar este cliente como Elite.');return;}
  if(a.lastVisit&&(!dateOK(a.lastVisit)||a.lastVisit>todayISO())){alert('A última visita deve ser uma data válida até hoje.');return;}
  if((a.latitude||a.longitude)&&!coords(a)){alert('Preencha latitude e longitude válidas.');return;}
@@ -139,8 +145,9 @@ const visitDialog=document.createElement('dialog');visitDialog.innerHTML='<div c
 $('recordVisit').onclick=()=>{if(!$('accountId').value){alert('Salve a conta antes de registrar a visita.');return;}$('visitDate').value=todayISO();$('visitDate').max=todayISO();$('visitNote').value='';visitDialog.showModal();};
 $('cancelVisit').onclick=()=>visitDialog.close();
 $('visitForm').onsubmit=e=>{e.preventDefault();const date=$('visitDate').value,note=$('visitNote').value.trim(),id=$('accountId').value,a=state.accounts.find(a=>a.id===id);if(!a||!dateOK(date)||date>todayISO()||!note)return;
- const updated={...a,visits:[...(a.visits||[]),{id:crypto.randomUUID(),date,note}],lastVisit:dateOK(a.lastVisit)&&a.lastVisit>date?a.lastVisit:date};
- if(commit({...state,accounts:state.accounts.map(x=>x.id===id?updated:x)})){$('lastVisit').value=updated.lastVisit;$('visitHistory').textContent=updated.visits.map(v=>fmt(v.date)+' — '+v.note).join(' | ');visitDialog.close();}};
+ const cadence=Math.max(0,Number(a.reminder?.cadenceDays??15)||0),schedule=a.reminder?.enabled!==false&&cadence>0;
+ const updated={...a,visits:[...(a.visits||[]),{id:crypto.randomUUID(),date,note}],lastVisit:dateOK(a.lastVisit)&&a.lastVisit>date?a.lastVisit:date,lastContact:date,nextDate:schedule?addDays(date,cadence):a.nextDate,nextAction:schedule?'Retornar ao cliente':a.nextAction};
+ if(commit(normalizeV3({...state,accounts:state.accounts.map(x=>x.id===id?updated:x)}))){$('lastVisit').value=updated.lastVisit;$('nextDate').value=updated.nextDate||'';$('nextAction').value=updated.nextAction||'';$('visitHistory').textContent=updated.visits.map(v=>fmt(v.date)+' — '+v.note).join(' | ');visitDialog.close();}};
 function cleanCnpj(value){return String(value||'').replace(/[^a-z0-9]/gi,'').toUpperCase().slice(0,14);}
 function formatCnpj(value){const c=cleanCnpj(value);return c.length===14?c.slice(0,2)+'.'+c.slice(2,5)+'.'+c.slice(5,8)+'/'+c.slice(8,12)+'-'+c.slice(12):c;}
 function cnpjCheckDigit(base,weights){let sum=0;for(let i=0;i<weights.length;i++)sum+=(base.charCodeAt(i)-48)*weights[i];const rest=sum%11;return rest<2?0:11-rest;}
