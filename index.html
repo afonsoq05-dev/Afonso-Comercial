@@ -74,7 +74,7 @@
     .progress > div{height:100%;background:var(--accent)}
     .empty{text-align:center;color:var(--muted);padding:28px 12px}
     .mapimg{width:100%;border-radius:14px;display:block;background:#eee}
-    .nav{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(18,18,20,.97);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:7px 7px calc(7px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr)}
+    .nav{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(18,18,20,.97);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:7px 7px calc(7px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(6,1fr)}
     .nav button{background:none;border:0;color:#8f8f96;font-size:10px;padding:7px 2px}
     .nav button .ico{display:block;font-size:20px;line-height:1.2;margin-bottom:3px}
     .nav button.active{color:var(--accent2)}
@@ -91,6 +91,7 @@
   </style>
   <link rel="stylesheet" href="modern-ui.css">
   <link rel="stylesheet" href="smart-assistant.css">
+  <link rel="stylesheet" href="central-ligacoes.css">
 </head>
 <body>
 <header class="top">
@@ -142,6 +143,45 @@
     <div class="toolbar" id="regionFilters"></div>
     <div class="toolbar" id="priorityFilters"></div>
     <div id="accountsList" class="list"></div>
+  </section>
+
+
+  <section id="calls" class="section">
+    <div class="hero">
+      <div class="eyebrow">Prospecção por telefone</div>
+      <h2>Central de Ligações</h2>
+      <p>Una seus contatos à carteira, ligue manualmente e registre o resultado sem sair da rotina comercial.</p>
+    </div>
+    <div class="grid cols4">
+      <div class="kpi"><div class="n" id="callQueueCount">0</div><div class="l">Contas com telefone</div></div>
+      <div class="kpi"><div class="n" id="callHistoryCount">0</div><div class="l">Ligações registradas</div></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <h3>📥 Unificar contatos do celular</h3>
+      <p class="muted" style="font-size:13px;line-height:1.5">Exporte os contatos do iPhone em formato VCF (vCard) ou use uma planilha CSV. O app compara telefones, CNPJ e nome; você confere tudo antes de aplicar.</p>
+      <div class="import-actions">
+        <label class="btn file-label">Escolher arquivo VCF ou CSV<input id="contactsImportFile" type="file" accept=".vcf,.csv,text/vcard,text/csv" hidden></label>
+        <button class="btn secondary" id="applyImport" type="button">Aplicar importação</button>
+      </div>
+      <div class="call-hint" id="importFileName">Nenhum arquivo selecionado.</div>
+      <div class="call-summary" id="importSummary"></div>
+      <div class="import-preview" id="importPreview"></div>
+    </div>
+    <div class="card">
+      <h3>☎️ Fila de ligações</h3>
+      <p class="muted" style="font-size:13px">Prioriza retornos vencidos, depois a região da semana e a classe do cliente.</p>
+      <div class="call-queue-tools">
+        <input id="callSearch" placeholder="Buscar empresa, cidade, contato ou telefone">
+        <label class="checkline"><input id="callDueOnly" type="checkbox"> Só retornos vencidos/para hoje</label>
+      </div>
+      <button class="btn secondary small" id="callRefresh" type="button">Atualizar fila</button>
+      <div id="callQueue" class="list" style="margin-top:12px"></div>
+    </div>
+    <div class="card">
+      <h3>🗒️ Últimas ligações</h3>
+      <p class="call-hint">O histórico é salvo neste aparelho. Faça backup do histórico antes de trocar ou limpar o navegador.</p>
+      <div id="callHistory" class="list"></div>
+    </div>
   </section>
 
   <section id="today" class="section">
@@ -214,6 +254,7 @@
   <button class="active" data-section="home" onclick="showSection('home')"><span class="ico">⌂</span>Início</button>
   <button data-section="accounts" onclick="showSection('accounts')"><span class="ico">👥</span>Contas</button>
   <button data-section="today" onclick="showSection('today')"><span class="ico">✓</span>Ações</button>
+  <button data-section="calls" onclick="showSection('calls')"><span class="ico">☎</span>Ligações</button>
   <button data-section="regions" onclick="showSection('regions')"><span class="ico">🗺</span>Regiões</button>
   <button data-section="pipeline" onclick="showSection('pipeline')"><span class="ico">R$</span>Pipeline</button>
 </nav>
@@ -307,6 +348,7 @@ function showSection(id){
   if(id==='accounts') renderAccounts();
   if(id==='today') renderToday();
   if(id==='pipeline') renderPipeline();
+  if(id==='calls' && window.renderCentralLigacoes) window.renderCentralLigacoes();
 }
 function setWeek(v){state.weekKey=v;persist();}
 function renderHeader(){
@@ -497,7 +539,8 @@ function deleteAccount(){
   }
 }
 function exportBackup(){
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const backupPayload={...state,callLogs:JSON.parse(localStorage.getItem('afonso_call_logs_v1')||'[]')};
+  const blob=new Blob([JSON.stringify(backupPayload,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='backup-afonso-comercial-'+todayISO()+'.json'; a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),1000);
@@ -505,7 +548,7 @@ function exportBackup(){
 function importBackup(ev){
   const f=ev.target.files[0]; if(!f)return;
   const r=new FileReader();
-  r.onload=()=>{try{state=JSON.parse(r.result);localStorage.setItem(KEY,JSON.stringify(state));renderAll();alert('Backup importado.')}catch(e){alert('Arquivo de backup inválido.')}};
+  r.onload=()=>{try{const payload=JSON.parse(r.result);if(Array.isArray(payload.callLogs)){localStorage.setItem('afonso_call_logs_v1',JSON.stringify(payload.callLogs));delete payload.callLogs;}state=payload;localStorage.setItem(KEY,JSON.stringify(state));renderAll();if(window.renderCentralLigacoes)window.renderCentralLigacoes();alert('Backup importado.')}catch(e){alert('Arquivo de backup inválido.')}};
   r.readAsText(f);
 }
 function importClients(ev){
@@ -553,5 +596,6 @@ if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.se
 <script src="route-planner.js"></script>
 <script src="push-config.js"></script>
 <script src="smart-assistant.js"></script>
+<script src="central-ligacoes.js"></script>
 </body>
 </html>
