@@ -546,7 +546,7 @@ function deleteAccount(){
   }
 }
 function exportBackup(){
-  const backupPayload={...state,callLogs:JSON.parse(localStorage.getItem('afonso_call_logs_v1')||'[]')};
+  const backupPayload={...state,callLogs:JSON.parse(localStorage.getItem('afonso_call_logs_v1')||'[]'),dimensionadorCases:JSON.parse(localStorage.getItem('afonso_dimensionador_cases_v1')||'[]'),dimensionadorMachines:JSON.parse(localStorage.getItem('afonso_dimensionador_machines_v1')||'[]')};
   const blob=new Blob([JSON.stringify(backupPayload,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='backup-afonso-comercial-'+todayISO()+'.json'; a.click();
@@ -555,7 +555,7 @@ function exportBackup(){
 function importBackup(ev){
   const f=ev.target.files[0]; if(!f)return;
   const r=new FileReader();
-  r.onload=()=>{try{const payload=JSON.parse(r.result);if(Array.isArray(payload.callLogs)){localStorage.setItem('afonso_call_logs_v1',JSON.stringify(payload.callLogs));delete payload.callLogs;}state=payload;localStorage.setItem(KEY,JSON.stringify(state));renderAll();if(window.renderCentralLigacoes)window.renderCentralLigacoes();alert('Backup importado.')}catch(e){alert('Arquivo de backup inválido.')}};
+  r.onload=()=>{try{const payload=JSON.parse(r.result);if(Array.isArray(payload.callLogs)){localStorage.setItem('afonso_call_logs_v1',JSON.stringify(payload.callLogs));delete payload.callLogs;}if(Array.isArray(payload.dimensionadorCases)){localStorage.setItem('afonso_dimensionador_cases_v1',JSON.stringify(payload.dimensionadorCases));delete payload.dimensionadorCases;}if(Array.isArray(payload.dimensionadorMachines)){localStorage.setItem('afonso_dimensionador_machines_v1',JSON.stringify(payload.dimensionadorMachines));delete payload.dimensionadorMachines;}state=payload;localStorage.setItem(KEY,JSON.stringify(state));renderAll();if(window.renderCentralLigacoes)window.renderCentralLigacoes();alert('Backup importado.')}catch(e){alert('Arquivo de backup inválido.')}};
   r.readAsText(f);
 }
 function importClients(ev){
