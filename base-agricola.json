@@ -862,7 +862,8 @@
         ],
         "rowSpacingCm": [
           45,
-          50
+          50,
+          76
         ],
         "workingWidthM": [
           4.95,
@@ -871,7 +872,8 @@
         ],
         "massKg": [
           5235,
-          6135
+          5683,
+          5772
         ],
         "recommendedPowerRangeCv": [
           105,
@@ -892,6 +894,20 @@
           "mainSeed": [
             620
           ]
+        },
+        "recommendedPowerByRowCount": {
+          "11": [
+            105,
+            145
+          ],
+          "13": [
+            125,
+            170
+          ],
+          "15": [
+            140,
+            195
+          ]
         }
       },
       "sourceUrl": "https://baldan.com.br/produtos/donna-series-11-13-15-linhas/",
@@ -899,7 +915,7 @@
       "checkedAt": "2026-10-15",
       "confidence": "fabricante_confirmado",
       "evidenceType": "página oficial e tabela técnica do fabricante",
-      "notes": "Faixas consolidadas da família DONNA; peso, largura e potência variam por número de linhas e opcionais. Confirmar versão, espaçamento, inoculante e potência no manual da unidade específica."
+      "notes": "Dados consolidados da tabela oficial da família DONNA: 11 linhas (105–145 cv; 5.235 kg sem inoculante), 13 linhas (125–170 cv; 5.683 kg) e 15 linhas (140–195 cv; 5.772 kg). Espaçamentos variam conforme número de linhas (450, 500 ou 760 mm). Confirmar configuração e opcionais na ficha da unidade específica."
     },
     {
       "id": "planter-baldan-pp-solo-g2-br",
@@ -927,7 +943,8 @@
         ],
         "massKg": [
           5235,
-          6135
+          5683,
+          5772
         ],
         "recommendedPowerRangeCv": [
           105,
@@ -938,14 +955,28 @@
           15
         ],
         "plantingSystem": "Precisão pantográfica",
-        "meteringSystem": "Controle preciso de profundidade (CPP)"
+        "meteringSystem": "Controle preciso de profundidade (CPP)",
+        "recommendedPowerByRowCount": {
+          "11": [
+            105,
+            145
+          ],
+          "13": [
+            125,
+            170
+          ],
+          "15": [
+            140,
+            195
+          ]
+        }
       },
       "sourceUrl": "https://baldan.com.br/produtos/pp-solo-g2/",
       "sourceTitle": "PP SOLO-G2 — Baldan Brasil",
       "checkedAt": "2026-10-15",
       "confidence": "fabricante_confirmado",
       "evidenceType": "página oficial e tabela técnica do fabricante",
-      "notes": "Faixa da família: 11–15 linhas, espaçamentos publicados de 45, 50 e 76 cm e potência aproximada dependente da configuração e das condições de plantio. Confirmar massa, espaçamento e potência exatos no catálogo/manual da unidade."
+      "notes": "Dados consolidados da tabela oficial: 11 linhas (105–145 cv; 5.235 kg), 13 linhas (125–170 cv; 5.683 kg) e 15 linhas (140–195 cv; 5.772 kg). Potência aproximada em condições normais; solo, relevo, configuração e opcionais alteram a demanda. Confirmar ficha da unidade específica."
     },
     {
       "id": "planter-baldan-plb-directa-br",
@@ -1026,6 +1057,12 @@
       "action": "add_baldan_brazilian_planters",
       "count": 3,
       "details": "Adicionadas as famílias DONNA, PP SOLO-G2 e PLB Directa a partir de páginas/tabelas técnicas oficiais brasileiras. Faixas de família não substituem ficha da configuração exata e não geram compatibilidade automática."
+    },
+    {
+      "date": "2026-10-15",
+      "action": "refine_baldan_family_specs",
+      "count": 2,
+      "details": "Refinadas as massas, espaçamentos e faixas de potência por número de linhas da DONNA e PP SOLO-G2 com base nas tabelas oficiais."
     }
   ],
   "note": "Base técnica em expansão. Registros com fontes rastreáveis não implicam compatibilidade automática; confirmar modelo, ano, versão, disponibilidade regional e requisitos do implemento antes de recomendar conjuntos."
