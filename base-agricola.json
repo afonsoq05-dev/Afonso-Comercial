@@ -350,6 +350,22 @@
       "url": "https://committee.iso.org/cms/live/live/en/sites/isoorg/contents/data/standard/05/59/55910.html?browse=ics",
       "type": "norma de segurança",
       "note": "ISO 4254-1 cobre requisitos gerais de segurança para máquinas agrícolas abrangidas; não substitui manual nem prova compatibilidade entre modelos."
+    },
+    {
+      "id": "agco_br",
+      "manufacturer": "AGCO — Valtra, Fendt e Massey Ferguson",
+      "market": "Brasil",
+      "url": "https://www.agco.com.br/",
+      "type": "site oficial do grupo fabricante",
+      "note": "Portal do grupo para localizar linhas de tratores, colheitadeiras, pulverizadores e implementos; confirmar cada modelo na marca e ficha específica."
+    },
+    {
+      "id": "kuhn_ag_machinery",
+      "manufacturer": "KUHN",
+      "market": "Global / Brasil conforme modelo",
+      "url": "https://www.kuhn.com/en/agricultural-machinery",
+      "type": "catálogo oficial do fabricante",
+      "note": "Catálogo de implementos; o próprio fabricante alerta que alguns modelos não estão disponíveis em todos os países, então confirmar mercado e configuração."
     }
   ],
   "machines": [],
