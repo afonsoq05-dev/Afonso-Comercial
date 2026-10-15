@@ -1,0 +1,359 @@
+{
+  "schemaVersion": "1.0.0",
+  "title": "Base Técnica Agrícola — Afonso Comercial",
+  "locale": "pt-BR",
+  "purpose": "Base independente de fabricante para dimensionamento preliminar de máquinas e implementos agrícolas. Nenhuma recomendação técnica é válida sem fonte verificável e conferência da configuração exata.",
+  "dataPolicy": {
+    "noInventedSpecs": true,
+    "missingData": "null",
+    "requiredEvidence": [
+      "manufacturer",
+      "model",
+      "configuration",
+      "sourceUrl",
+      "sourceTitle",
+      "checkedAt",
+      "confidence"
+    ],
+    "confidenceLevels": [
+      "fabricante_confirmado",
+      "manual_confirmado",
+      "fonte_secundaria_pendente",
+      "nao_verificado"
+    ],
+    "sourcePriority": [
+      "manual oficial da configuração exata",
+      "ficha técnica oficial",
+      "site oficial do fabricante",
+      "distribuidor autorizado com documento rastreável",
+      "fonte secundária para pesquisa, nunca confirmação final"
+    ],
+    "note": "Guardar ano/modelo, mercado/região, versão, unidades originais e normalizadas. Modelos com mesmo nome podem variar por ano, mercado ou configuração."
+  },
+  "categories": [
+    {
+      "id": "tractor",
+      "label": "Tratores agrícolas",
+      "direction": [
+        "tractor_to_implement",
+        "implement_to_tractor",
+        "operation_set"
+      ],
+      "fields": [
+        "enginePowerCv",
+        "ptoPowerCv",
+        "transmission",
+        "driveType",
+        "hydraulicFlowLMin",
+        "remoteValves",
+        "hitchLiftKg",
+        "operatingMassKg",
+        "wheelbaseMm",
+        "ptoOptions"
+      ]
+    },
+    {
+      "id": "planter",
+      "label": "Plantadeiras e semeadoras",
+      "direction": [
+        "tractor_to_implement",
+        "implement_to_tractor",
+        "operation_set"
+      ],
+      "fields": [
+        "rowCount",
+        "rowSpacingCm",
+        "workingWidthM",
+        "minPowerCv",
+        "recommendedPowerRangeCv",
+        "hydraulicFlowLMin",
+        "requiredRemoteValves",
+        "hopperCapacityL",
+        "meteringSystem",
+        "plantingSystem"
+      ]
+    },
+    {
+      "id": "disc_harrow",
+      "label": "Grades aradoras e niveladoras",
+      "direction": [
+        "tractor_to_implement",
+        "implement_to_tractor",
+        "operation_set"
+      ],
+      "fields": [
+        "discCount",
+        "discDiameterIn",
+        "workingWidthM",
+        "workingDepthCm",
+        "massKg",
+        "minPowerCv",
+        "soilConditions"
+      ]
+    },
+    {
+      "id": "towed_sprayer",
+      "label": "Pulverizadores de arrasto",
+      "direction": [
+        "tractor_to_implement",
+        "implement_to_tractor",
+        "operation_set"
+      ],
+      "fields": [
+        "tankCapacityL",
+        "boomWidthM",
+        "applicationRateLHa",
+        "requiredPowerCv",
+        "hydraulicFlowLMin",
+        "requiredRemoteValves",
+        "massKg"
+      ]
+    },
+    {
+      "id": "self_propelled_sprayer",
+      "label": "Pulverizadores autopropelidos",
+      "direction": [
+        "operation_set"
+      ],
+      "fields": [
+        "tankCapacityL",
+        "boomWidthM",
+        "applicationRateLHa",
+        "workingSpeedKmH",
+        "fieldEfficiencyPct",
+        "groundClearanceMm",
+        "trackAdjustmentMm"
+      ]
+    },
+    {
+      "id": "combine",
+      "label": "Colheitadeiras",
+      "direction": [
+        "operation_set",
+        "header_to_combine"
+      ],
+      "fields": [
+        "enginePowerCv",
+        "grainTankL",
+        "threshingCapacityTH",
+        "headerCompatibility",
+        "cropTypes",
+        "lossMonitoring"
+      ]
+    },
+    {
+      "id": "harvest_header",
+      "label": "Plataformas de colheita",
+      "direction": [
+        "header_to_combine"
+      ],
+      "fields": [
+        "workingWidthM",
+        "rowCount",
+        "cropTypes",
+        "driveType",
+        "adapterRequired",
+        "compatibleCombineModels"
+      ]
+    },
+    {
+      "id": "cultivator",
+      "label": "Cultivadores e escarificadores",
+      "direction": [
+        "tractor_to_implement",
+        "implement_to_tractor",
+        "operation_set"
+      ],
+      "fields": [
+        "workingWidthM",
+        "workingDepthCm",
+        "shankCount",
+        "massKg",
+        "minPowerCv"
+      ]
+    },
+    {
+      "id": "fertilizer_spreader",
+      "label": "Distribuidores de fertilizantes",
+      "direction": [
+        "tractor_to_implement",
+        "implement_to_tractor",
+        "operation_set"
+      ],
+      "fields": [
+        "hopperCapacityL",
+        "workingWidthM",
+        "applicationRateKgHa",
+        "requiredPowerCv",
+        "hydraulicFlowLMin"
+      ]
+    },
+    {
+      "id": "other",
+      "label": "Outros implementos agrícolas",
+      "direction": [
+        "tractor_to_implement",
+        "implement_to_tractor",
+        "operation_set"
+      ],
+      "fields": [
+        "workingWidthM",
+        "massKg",
+        "minPowerCv",
+        "hydraulicFlowLMin",
+        "requiredRemoteValves"
+      ]
+    }
+  ],
+  "workflows": [
+    {
+      "id": "tractor_to_implement",
+      "label": "Tenho um trator e quero escolher um implemento"
+    },
+    {
+      "id": "implement_to_tractor",
+      "label": "Tenho um implemento e quero escolher um trator"
+    },
+    {
+      "id": "operation_set",
+      "label": "Quero dimensionar uma operação agrícola"
+    },
+    {
+      "id": "header_to_combine",
+      "label": "Tenho uma colheitadeira e quero escolher uma plataforma"
+    }
+  ],
+  "formulas": [
+    {
+      "id": "field_capacity",
+      "label": "Capacidade teórica de campo",
+      "formula": "workingWidthM * workingSpeedKmH / 10",
+      "unit": "ha/h",
+      "assumptions": "Não inclui perdas operacionais."
+    },
+    {
+      "id": "effective_field_capacity",
+      "label": "Capacidade efetiva estimada",
+      "formula": "workingWidthM * workingSpeedKmH * (fieldEfficiencyPct / 100) / 10",
+      "unit": "ha/h",
+      "assumptions": "Eficiência precisa refletir formato do talhão, manobras, abastecimento, regulagens e paradas."
+    },
+    {
+      "id": "hours_required",
+      "label": "Horas estimadas",
+      "formula": "areaHa / effectiveFieldCapacityHaH",
+      "unit": "h",
+      "assumptions": "Estimativa operacional; não é garantia de produtividade."
+    },
+    {
+      "id": "spray_rate",
+      "label": "Volume de calda total",
+      "formula": "areaHa * applicationRateLHa",
+      "unit": "L",
+      "assumptions": "A dose e a taxa de aplicação devem ser definidas tecnicamente conforme produto, cultura e recomendação agronômica."
+    },
+    {
+      "id": "harvest_mass",
+      "label": "Massa total estimada para colher",
+      "formula": "areaHa * yieldTHa",
+      "unit": "t",
+      "assumptions": "Produtividade informada pelo usuário; capacidade real depende de cultura, umidade, perdas, relevo e logística."
+    }
+  ],
+  "compatibilityChecks": {
+    "tractorImplement": [
+      "powerRequirementAndPTO",
+      "hydraulicFlowAndRemoteValves",
+      "hitchCategoryAndLiftCapacity",
+      "implementMassAndBallast",
+      "transmissionAndWorkingSpeed",
+      "soilAndTerrain",
+      "manufacturerRestrictions"
+    ],
+    "combineHeader": [
+      "exactCombineModelAndYear",
+      "headerTypeAndWorkingWidth",
+      "adapterAndCoupling",
+      "driveAndHydraulicCompatibility",
+      "cropAndHarvestConditions",
+      "manufacturerApprovedCompatibility"
+    ],
+    "sprayer": [
+      "workingWidthAndFieldCapacity",
+      "tankCapacityAndRefillLogistics",
+      "applicationRateAndNozzleSetup",
+      "terrainAndGroundClearance",
+      "tractorHydraulicAndTowRequirements"
+    ]
+  },
+  "sourceRegistry": [
+    {
+      "id": "john_deere_br",
+      "manufacturer": "John Deere",
+      "market": "Brasil",
+      "url": "https://www.deere.com.br/pt/",
+      "type": "site oficial do fabricante",
+      "note": "Pesquisar páginas e fichas técnicas do modelo exato."
+    },
+    {
+      "id": "case_ih_br",
+      "manufacturer": "Case IH",
+      "market": "Brasil",
+      "url": "https://www.caseih.com/pt-br/brasil",
+      "type": "site oficial do fabricante",
+      "note": "Pesquisar fichas técnicas e manuais do modelo exato."
+    },
+    {
+      "id": "new_holland_br",
+      "manufacturer": "New Holland Agriculture",
+      "market": "Brasil",
+      "url": "https://agriculture.newholland.com/pt-br/south-america",
+      "type": "site oficial do fabricante",
+      "note": "Pesquisar fichas técnicas, manuais e compatibilidade por configuração."
+    },
+    {
+      "id": "valtra_br",
+      "manufacturer": "Valtra",
+      "market": "Brasil",
+      "url": "https://www.valtra.com.br/",
+      "type": "site oficial do fabricante",
+      "note": "Pesquisar especificações por modelo e versão."
+    },
+    {
+      "id": "fendt_global",
+      "manufacturer": "Fendt",
+      "market": "Global / Brasil conforme modelo",
+      "url": "https://www.fendt.com/",
+      "type": "site oficial do fabricante",
+      "note": "Confirmar disponibilidade e especificação para o mercado aplicável."
+    },
+    {
+      "id": "massey_ferguson_br",
+      "manufacturer": "Massey Ferguson",
+      "market": "Brasil",
+      "url": "https://www.masseyferguson.com/pt_br.html",
+      "type": "site oficial do fabricante",
+      "note": "Pesquisar ficha técnica oficial."
+    },
+    {
+      "id": "kuhn_br",
+      "manufacturer": "KUHN",
+      "market": "Brasil / global",
+      "url": "https://www.kuhn.com/",
+      "type": "site oficial do fabricante",
+      "note": "Fonte para implementos; confirmar modelo e configuração."
+    },
+    {
+      "id": "iso_4254_1",
+      "manufacturer": "ISO",
+      "market": "Internacional",
+      "url": "https://committee.iso.org/cms/live/live/en/sites/isoorg/contents/data/standard/05/59/55910.html?browse=ics",
+      "type": "norma de segurança",
+      "note": "ISO 4254-1 cobre requisitos gerais de segurança para máquinas agrícolas abrangidas; não substitui manual nem prova compatibilidade entre modelos."
+    }
+  ],
+  "machines": [],
+  "compatibilityRecords": [],
+  "auditLog": [],
+  "note": "Base inicial estrutural. Nenhum modelo específico está marcado como verificado até ser cadastrado com fonte rastreável."
+}
