@@ -368,7 +368,34 @@
       "note": "Catálogo de implementos; o próprio fabricante alerta que alguns modelos não estão disponíveis em todos os países, então confirmar mercado e configuração."
     }
   ],
-  "machines": [],
+  "machines": [
+    {
+      "id": "tractor-caseih-farmall-80-br",
+      "category": "tractor",
+      "manufacturer": "Case IH",
+      "model": "Farmall 80",
+      "configuration": "Brasil; versão plataformada ou cabinada precisa ser confirmada",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 80,
+        "transmission": "Sincronizada 12x4",
+        "engineDisplacementCm3": 3908,
+        "cylinders": 4,
+        "maxTorqueNm": 300,
+        "fuelTankL": {
+          "platform": 161,
+          "cab": 170
+        }
+      },
+      "sourceUrl": "https://www.caseih.com/pt-br/brasil/produtos/tratores/farmall/farmall-80",
+      "sourceTitle": "Trator Farmall 80 — Case IH Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "Campos não publicados ou não confirmados permanecem ausentes. Validar versão exata e ficha técnica completa antes de recomendar implemento."
+    }
+  ],
   "compatibilityRecords": [],
   "auditLog": [],
   "note": "Base inicial estrutural. Nenhum modelo específico está marcado como verificado até ser cadastrado com fonte rastreável."
