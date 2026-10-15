@@ -13,14 +13,14 @@ esteiras:{label:'Trator de esteiras',group:'Pesada',fields:[['volume','Volume es
 rolo:{label:'Rolo compactador',group:'Pesada',fields:[['area','Área a compactar','m²','n'],['prazo','Prazo disponível','h','n'],['largura','Largura do tambor','m','n'],['velocidade','Velocidade de trabalho','km/h','n'],['passadas','Número de passadas','passadas','n',6],['eficiencia','Eficiência operacional','%','n',70],['camada','Espessura da camada','cm','n'],['material','Material','','s',['Solo','Brita / base','Asfalto']]],formula:'roller'}
 };
 let tab='novo', result=null, technicalBase=null;
-fetch('./base-agricola.json?v=20261015f').then(r=>r.ok?r.json():null).then(data=>{technicalBase=data;if(tab==='catalogo')catalog()}).catch(()=>{technicalBase=null});
+fetch('./base-agricola.json?v=20261015f').then(r=>r.ok?r.json():null).then(data=>{technicalBase=data;if(tab==='catalogo')catalog();if(tab==='compatibilidade')compatibility()}).catch(()=>{technicalBase=null});
 const read=(k,fb)=>{try{const x=JSON.parse(localStorage.getItem(k)||'null');return x===null?fb:x}catch(e){return fb}};
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const n=id=>{const e=document.getElementById('dim_'+id);if(!e||e.value==='')return null;const x=Number(e.value);return Number.isFinite(x)?x:null};
 const v=id=>document.getElementById('dim_'+id)?.value||'';
 const fmt=x=>Number.isFinite(x)?x.toLocaleString('pt-BR',{maximumFractionDigits:2}):'—';
-function render(){root.innerHTML='<div class="dim-tabs"><button data-tab="novo" class="'+(tab==='novo'?'active':'')+'">＋ Novo dimensionamento</button><button data-tab="historico" class="'+(tab==='historico'?'active':'')+'">Histórico</button><button data-tab="catalogo" class="'+(tab==='catalogo'?'active':'')+'">Catálogo técnico</button></div><div id="dimBody"></div>';root.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});if(tab==='novo')newForm();if(tab==='historico')history();if(tab==='catalogo')catalog()}
+function render(){root.innerHTML='<div class="dim-tabs"><button data-tab="novo" class="'+(tab==='novo'?'active':'')+'">＋ Novo dimensionamento</button><button data-tab="historico" class="'+(tab==='historico'?'active':'')+'">Histórico</button><button data-tab="catalogo" class="'+(tab==='catalogo'?'active':'')+'">Catálogo técnico</button><button data-tab="compatibilidade" class="'+(tab==='compatibilidade'?'active':'')+'">Compatibilidade</button></div><div id="dimBody"></div>';root.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;render()});if(tab==='novo')newForm();if(tab==='historico')history();if(tab==='catalogo')catalog();if(tab==='compatibilidade')compatibility()}
 function newForm(){
 const accounts=read('afonso_comercial_v1',{}).accounts||[], body=document.getElementById('dimBody');
 body.innerHTML='<div class="card"><h3>1. Identifique a oportunidade</h3><div class="dim-grid"><div><label>Cliente (opcional)</label><select id="dim_cliente"><option value="">Não vincular agora</option>'+accounts.map(a=>'<option value="'+esc(a.id)+'">'+esc(a.company)+' — '+esc(a.city)+'</option>').join('')+'</select></div><div><label>Nome do levantamento</label><input id="dim_nome" placeholder="Ex.: plantio de 500 ha / obra de terraplenagem"></div><div><label>Grupo</label><select id="dim_grupo"><option>Agrícola</option><option>Pesada</option></select></div><div><label>Tipo de máquina / operação</label><select id="dim_tipo">'+Object.keys(TYPES).map(k=>'<option value="'+k+'" data-group="'+TYPES[k].group+'">'+TYPES[k].label+'</option>').join('')+'</select></div><div class="dim-span"><label>Objetivo / observações</label><textarea id="dim_obs" placeholder="Cultura ou obra, gargalo, máquina existente, prazo e condições"></textarea></div></div></div><div class="card"><h3>2. Levantamento técnico</h3><p class="dim-small">Preencha o que souber. Campos vazios não serão inventados.</p><div id="dimFields" class="dim-grid"></div></div><div class="card"><h3>3. Resultado</h3><div id="dimResults" class="dim-empty">Preencha os dados e calcule.</div><div class="dim-actions"><button class="btn" id="dimCalc">Calcular e comparar</button><button class="btn secondary" id="dimSave">Salvar levantamento</button></div><p class="dim-small">Cálculos de triagem comercial. Confirme especificações e condições reais antes de recomendar ou cotar.</p></div>';
@@ -76,6 +76,50 @@ document.getElementById('dimResults').innerHTML='<div class="dim-result"><div cl
 }
 function saveCase(){if(!result){alert('Calcule o dimensionamento antes de salvar.');return}const cases=read(CK,[]),accounts=read('afonso_comercial_v1',{}).accounts||[],account=accounts.find(a=>a.id===v('cliente'));cases.unshift({id:'dim'+Date.now(),name:v('nome').trim()||TYPES[v('tipo')].label,clientId:v('cliente'),clientName:account?.company||'',type:v('tipo'),group:v('grupo'),observations:v('obs'),result:result,updatedAt:new Date().toISOString()});save(CK,cases);alert('Levantamento salvo neste aparelho. Faça backup regularmente.');tab='historico';render()}
 function history(){const cases=read(CK,[]),body=document.getElementById('dimBody');body.innerHTML='<div class="card"><h3>Levantamentos salvos</h3><p class="dim-small">Dados armazenados neste aparelho/navegador.</p>'+(cases.length?cases.map(c=>'<div class="dim-machine"><b>'+esc(c.name)+'</b><div class="dim-small">'+esc(c.clientName||'Sem cliente')+' · '+esc(TYPES[c.type]?.label||c.type)+' · '+new Date(c.updatedAt).toLocaleString('pt-BR')+'</div><div class="dim-small">'+esc(c.result?.headline||'Sem cálculo')+'</div><button class="btn danger small" data-del="'+esc(c.id)+'">Excluir</button></div>').join(''):'<div class="dim-empty">Nenhum levantamento salvo.</div>')+'</div>';body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('Excluir este levantamento?')){save(CK,read(CK,[]).filter(c=>c.id!==b.dataset.del));history()}})}
+function compatibility(){
+const body=document.getElementById('dimBody');
+if(!technicalBase||!Array.isArray(technicalBase.machines)){
+body.innerHTML='<div class="card"><h3>Compatibilidade preliminar</h3><p class="dim-small">A base técnica ainda está carregando ou não pôde ser lida. Aguarde alguns segundos e abra esta aba novamente.</p></div>';return;
+}
+const machines=technicalBase.machines;
+const tractors=machines.filter(m=>m.category==='tractor');
+const implementsList=machines.filter(m=>['planter','disc_harrow','towed_sprayer','cultivator','fertilizer_spreader','other'].includes(m.category));
+const opts=(arr,placeholder)=>'<option value="">'+placeholder+'</option>'+arr.map(m=>'<option value="'+esc(m.id)+'">'+esc(m.manufacturer+' '+m.model)+'</option>').join('');
+body.innerHTML='<div class="card"><h3>Avaliar trator + implemento</h3><p class="dim-small">Triagem comercial baseada apenas nos dados cadastrados e nas fontes vinculadas. Não substitui manual, avaliação de TDP, hidráulico, levante, lastro, engate, relevo e condições do solo.</p><div class="dim-grid"><div><label>Trator</label><select id="compatTractor">'+opts(tractors,'Selecione o trator')+'</select></div><div><label>Implemento</label><select id="compatImplement">'+opts(implementsList,'Selecione o implemento')+'</select></div><div id="compatVariantWrap" class="dim-span" style="display:none"><label>Configuração do implemento</label><select id="compatVariant"></select></div></div><div class="dim-actions"><button class="btn" id="compatCheck">Avaliar combinação</button></div><div id="compatResult" style="margin-top:12px"><div class="dim-empty">Selecione um trator e um implemento para iniciar.</div></div></div>';
+const tractorSelect=document.getElementById('compatTractor'), implementSelect=document.getElementById('compatImplement'), variantWrap=document.getElementById('compatVariantWrap'), variantSelect=document.getElementById('compatVariant');
+function selected(id){return machines.find(m=>m.id===id)}
+function setupVariant(){
+const m=selected(implementSelect.value),s=m?.specs||{};
+if(m?.category==='planter'&&Array.isArray(s.rowCount)&&s.rowCount.length>1){
+variantWrap.style.display='block';
+variantSelect.innerHTML=s.rowCount.map(n=>'<option value="'+esc(n)+'">'+esc(n)+' linhas</option>').join('');
+}else{variantWrap.style.display='none';variantSelect.innerHTML=''}
+}
+implementSelect.onchange=setupVariant;
+document.getElementById('compatCheck').onclick=()=>{
+const t=selected(tractorSelect.value),im=selected(implementSelect.value),out=document.getElementById('compatResult');
+if(!t||!im){out.innerHTML='<div class="dim-empty">Selecione os dois modelos antes de avaliar.</div>';return}
+const ts=t.specs||{},is=im.specs||{};
+let powerRange=is.recommendedPowerRangeCv||null;
+const chosenVariant=variantSelect.value;
+if(is.recommendedPowerByRowCount&&chosenVariant&&is.recommendedPowerByRowCount[chosenVariant])powerRange=is.recommendedPowerByRowCount[chosenVariant];
+const tractorPower=Number(ts.enginePowerCv)||null;
+const checks=[];
+if(powerRange&&powerRange.length>=2&&tractorPower){
+const min=Number(powerRange[0]),max=Number(powerRange[1]);
+if(tractorPower<min)checks.push({status:'attention',title:'Potência abaixo da faixa informada',detail:'Trator: '+tractorPower+' cv. Faixa cadastrada para o implemento: '+min+'–'+max+' cv. Não recomendar sem confirmação técnica do fabricante.'});
+else if(tractorPower<=max)checks.push({status:'ok',title:'Potência nominal dentro da faixa cadastrada',detail:'Trator: '+tractorPower+' cv. Faixa cadastrada: '+min+'–'+max+' cv. É apenas uma triagem de potência; os demais requisitos ainda precisam ser confirmados.'});
+else checks.push({status:'review',title:'Potência acima do topo da faixa cadastrada',detail:'Trator: '+tractorPower+' cv. Faixa cadastrada: '+min+'–'+max+' cv. Isso não prova incompatibilidade; confirme limites, rotação, engate e recomendações do manual.'});
+}else checks.push({status:'unknown',title:'Potência não conclusiva',detail:!powerRange?'A base não contém faixa de potência para esta configuração.':'A potência do trator não está disponível na base.'});
+const requiredValves=Number(is.requiredRemoteValves)||null, tractorValves=Number(ts.remoteValves)||null;
+if(requiredValves&&tractorValves)checks.push(tractorValves>=requiredValves?{status:'ok',title:'Válvulas remotas: dado disponível',detail:'Implemento exige '+requiredValves+'; trator informa '+tractorValves+'.'}:{status:'attention',title:'Válvulas remotas abaixo do requisito cadastrado',detail:'Implemento exige '+requiredValves+'; trator informa '+tractorValves+'. Confirme a versão e a configuração hidráulica.'});
+else checks.push({status:'unknown',title:'Hidráulico/levante ainda não confirmados',detail:'A base não contém dados suficientes dos dois modelos para validar vazão hidráulica, válvulas, capacidade do levante e compatibilidade de engate.'});
+const labelStatus={ok:'Ponto favorável',attention:'Atenção',review:'Revisar',unknown:'Não verificado'};
+const sourceLink=m=>m.sourceUrl?'<a href="'+esc(m.sourceUrl)+'" target="_blank" rel="noopener noreferrer">Fonte oficial</a>':'Fonte não cadastrada';
+const resultClass=c=>c.status==='ok'?'dim-tag':c.status==='attention'?'dim-tag compat-warning':'dim-tag';
+out.innerHTML='<div class="dim-result"><div class="dim-small">TRIAGEM TÉCNICA · NÃO É HOMOLOGAÇÃO</div><div class="big">'+esc(t.manufacturer+' '+t.model)+' + '+esc(im.manufacturer+' '+im.model+(chosenVariant&&is.rowCount?' · '+chosenVariant+' linhas':''))+'</div><p class="dim-small">Use o resultado como roteiro de perguntas técnicas, não como garantia de compatibilidade.</p></div>'+checks.map(c=>'<div class="dim-machine"><span class="'+resultClass(c)+'">'+esc(labelStatus[c.status])+'</span><b>'+esc(c.title)+'</b><p class="dim-small">'+esc(c.detail)+'</p></div>').join('')+'<div class="dim-machine"><b>Dados para confirmar antes da proposta</b><ul><li>Potência na TDP e faixa recomendada para a configuração exata</li><li>Vazão hidráulica, número/tipo de válvulas e retorno livre, quando aplicável</li><li>Capacidade do levante, massa do implemento, distribuição de peso e lastro</li><li>Engate, rotação de TDP, velocidade, relevo, solo e condições de operação</li></ul><div class="dim-small">Fontes: '+sourceLink(t)+' · '+sourceLink(im)+'</div></div>';
+};
+}
 function technicalSummary(m){
 const s=m.specs||{},parts=[];
 const range=(v)=>Array.isArray(v)&&v.length?(v.length===1?String(v[0]):String(v[0])+'–'+String(v[v.length-1])):'';
