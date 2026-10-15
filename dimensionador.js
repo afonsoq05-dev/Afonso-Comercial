@@ -78,7 +78,7 @@ function saveCase(){if(!result){alert('Calcule o dimensionamento antes de salvar
 function history(){const cases=read(CK,[]),body=document.getElementById('dimBody');body.innerHTML='<div class="card"><h3>Levantamentos salvos</h3><p class="dim-small">Dados armazenados neste aparelho/navegador.</p>'+(cases.length?cases.map(c=>'<div class="dim-machine"><b>'+esc(c.name)+'</b><div class="dim-small">'+esc(c.clientName||'Sem cliente')+' · '+esc(TYPES[c.type]?.label||c.type)+' · '+new Date(c.updatedAt).toLocaleString('pt-BR')+'</div><div class="dim-small">'+esc(c.result?.headline||'Sem cálculo')+'</div><button class="btn danger small" data-del="'+esc(c.id)+'">Excluir</button></div>').join(''):'<div class="dim-empty">Nenhum levantamento salvo.</div>')+'</div>';body.querySelectorAll('[data-del]').forEach(b=>b.onclick=()=>{if(confirm('Excluir este levantamento?')){save(CK,read(CK,[]).filter(c=>c.id!==b.dataset.del));history()}})}
 function technicalSummary(m){
 const s=m.specs||{},parts=[];
-const range=(v,unit='')=>Array.isArray(v)&&v.length?(v.length===1?String(v[0]):String(v[0])+'–'+String(v[v.length-1])+unit):'';
+const range=(v)=>Array.isArray(v)&&v.length?(v.length===1?String(v[0]):String(v[0])+'–'+String(v[v.length-1])):'';
 const add=(label,value)=>{if(value!==undefined&&value!==null&&value!==''&&!(Array.isArray(value)&&!value.length))parts.push(label+': '+(Array.isArray(value)?value.join(' / '):value));};
 if(m.category==='tractor'){
 add('Potência',s.enginePowerCv!=null?s.enginePowerCv+' cv':null);
