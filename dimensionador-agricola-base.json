@@ -1,0 +1,250 @@
+{
+  "schemaVersion": "1.0.0",
+  "name": "Base Técnica Agrícola — Afonso Comercial",
+  "market": [
+    "Brasil",
+    "Importados"
+  ],
+  "status": "estrutura_inicial",
+  "policy": {
+    "noInventedValues": true,
+    "recommendationsRequireSource": true,
+    "requiredRecordFields": [
+      "brand",
+      "model",
+      "category",
+      "market",
+      "sourceUrl",
+      "sourceType",
+      "verifiedAt",
+      "confidence"
+    ],
+    "confidenceLevels": [
+      "fabricante_confirmado",
+      "fonte_secundaria_confiavel",
+      "informacao_pendente"
+    ],
+    "matchingRule": "Compatibilidade direta somente quando documentada por fabricante/manual; cálculos operacionais não substituem validação de compatibilidade mecânica, hidráulica, eletrônica ou de segurança.",
+    "units": [
+      "cv",
+      "kW",
+      "L/min",
+      "bar",
+      "kg",
+      "t",
+      "m",
+      "cm",
+      "ha",
+      "ha/h",
+      "L/ha",
+      "L",
+      "t/ha",
+      "t/h",
+      "m³",
+      "m³/h",
+      "s"
+    ]
+  },
+  "categories": [
+    {
+      "id": "trator",
+      "label": "Tratores agrícolas",
+      "subtypes": [
+        "compacto",
+        "utilitario",
+        "medio",
+        "alta_potencia",
+        "articulado"
+      ],
+      "fields": [
+        "powerCv",
+        "ptoPowerCv",
+        "transmission",
+        "drive",
+        "hydraulicFlowLMin",
+        "hydraulicPressureBar",
+        "remoteValves",
+        "liftCapacityKg",
+        "ptoRpm",
+        "operatingMassKg",
+        "wheelbaseMm",
+        "modelYear"
+      ]
+    },
+    {
+      "id": "plantadeira",
+      "label": "Plantadeiras e semeadoras",
+      "fields": [
+        "rowCount",
+        "rowSpacingCm",
+        "workingWidthM",
+        "requiredPowerMinCv",
+        "requiredPowerMaxCv",
+        "hydraulicFlowLMin",
+        "tankCapacityL",
+        "meteringSystem",
+        "furrowOpener",
+        "modelYear"
+      ]
+    },
+    {
+      "id": "grade",
+      "label": "Grades e implementos de preparo",
+      "fields": [
+        "discCount",
+        "discDiameterIn",
+        "workingWidthM",
+        "workingDepthCm",
+        "requiredPowerMinCv",
+        "requiredPowerMaxCv",
+        "operatingMassKg",
+        "hitchType",
+        "modelYear"
+      ]
+    },
+    {
+      "id": "pulverizador_arrasto",
+      "label": "Pulverizadores de arrasto",
+      "fields": [
+        "tankCapacityL",
+        "boomWidthM",
+        "applicationRateLHa",
+        "workingSpeedKmh",
+        "requiredPowerMinCv",
+        "hydraulicFlowLMin",
+        "hitchType",
+        "modelYear"
+      ]
+    },
+    {
+      "id": "pulverizador_autopropelido",
+      "label": "Pulverizadores autopropelidos",
+      "fields": [
+        "tankCapacityL",
+        "boomWidthM",
+        "applicationRateLHa",
+        "workingSpeedKmh",
+        "enginePowerCv",
+        "groundClearanceMm",
+        "trackWidthAdjustable",
+        "modelYear"
+      ]
+    },
+    {
+      "id": "colheitadeira",
+      "label": "Colheitadeiras",
+      "fields": [
+        "enginePowerCv",
+        "throughputTH",
+        "grainTankL",
+        "cropType",
+        "headerInterface",
+        "modelYear"
+      ]
+    },
+    {
+      "id": "plataforma",
+      "label": "Plataformas de colheita",
+      "fields": [
+        "headerType",
+        "workingWidthM",
+        "rowCount",
+        "rowSpacingCm",
+        "compatibilityModels",
+        "driveInterface",
+        "cropType",
+        "modelYear"
+      ]
+    },
+    {
+      "id": "pulverizador",
+      "label": "Pulverização — cálculo operacional",
+      "fields": [
+        "areaHa",
+        "timeWindowH",
+        "boomWidthM",
+        "workingSpeedKmh",
+        "fieldEfficiencyPct",
+        "applicationRateLHa",
+        "tankCapacityL"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-deere-manuals",
+      "publisher": "John Deere Brasil",
+      "type": "fabricante/manual e publicações",
+      "url": "https://www.deere.com.br/pt/pe%C3%A7as-e-servi%C3%A7os/manuais-e-treinamento/manuais/",
+      "supports": [
+        "trator",
+        "plantadeira",
+        "pulverizador",
+        "colheitadeira",
+        "plataforma"
+      ],
+      "status": "fonte_catalogada"
+    },
+    {
+      "id": "src-valtra-hitech",
+      "publisher": "Valtra Brasil",
+      "type": "folheto técnico oficial",
+      "url": "https://www.valtra.com.br/content/dam/public/valtra/pt-br/produtos/plantadoras/plantadeira-hitech/plantadeira-valtra-hitech-folheto.pdf",
+      "supports": [
+        "plantadeira",
+        "compatibilidade_trator"
+      ],
+      "status": "fonte_catalogada"
+    },
+    {
+      "id": "src-caseih-parts",
+      "publisher": "Case IH Brasil",
+      "type": "catálogo oficial de peças e modelos",
+      "url": "https://loja.caseih.com.br/sa/equipamentos-de-plantio-e-pulverizao/pulverizadores/saab80spr031patriot/cn/SA_A_B_80_SPR_031_PATRIOT",
+      "supports": [
+        "pulverizador_autopropelido"
+      ],
+      "status": "fonte_catalogada"
+    },
+    {
+      "id": "src-iso-4254-1",
+      "publisher": "ISO",
+      "type": "norma de segurança — requisitos gerais para máquinas agrícolas",
+      "url": "https://committee.iso.org/cms/live/live/en/sites/isoorg/contents/data/standard/05/59/55910.html?browse=ics",
+      "supports": [
+        "seguranca",
+        "criterios_de_validacao"
+      ],
+      "status": "referencia_normativa"
+    },
+    {
+      "id": "src-iso-4254-7",
+      "publisher": "ISO",
+      "type": "norma de segurança para colheitadeiras e máquinas de colheita",
+      "url": "https://www.iso.org/standard/63392.html",
+      "supports": [
+        "colheitadeira",
+        "plataforma",
+        "seguranca"
+      ],
+      "status": "referencia_normativa"
+    }
+  ],
+  "records": [],
+  "compatibilityRules": [],
+  "calculationDefinitions": {
+    "fieldCapacityHaH": "workingWidthM * workingSpeedKmh * (fieldEfficiencyPct / 100) / 10",
+    "timeRequiredH": "areaHa / fieldCapacityHaH",
+    "areaWithinWindowHa": "fieldCapacityHaH * timeWindowH",
+    "sprayVolumeL": "areaHa * applicationRateLHa",
+    "sprayRefillCount": "areaHa * applicationRateLHa / tankCapacityL",
+    "notes": "Usar apenas com unidades válidas e valores positivos; eficiência e velocidade são estimativas de operação, não especificações do fabricante."
+  },
+  "changeLog": [
+    {
+      "version": "1.0.0",
+      "date": "2026-10-15",
+      "note": "Estrutura inicial; fontes oficiais catalogadas; sem recomendações de compatibilidade pré-carregadas até validação de dados por modelo e versão."
+    }
+  ]
+}
