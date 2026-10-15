@@ -74,7 +74,7 @@
     .progress > div{height:100%;background:var(--accent)}
     .empty{text-align:center;color:var(--muted);padding:28px 12px}
     .mapimg{width:100%;border-radius:14px;display:block;background:#eee}
-    .nav{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(18,18,20,.97);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:7px 7px calc(7px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(6,1fr)}
+    .nav{position:fixed;z-index:30;left:0;right:0;bottom:0;background:rgba(18,18,20,.97);backdrop-filter:blur(20px);border-top:1px solid var(--line);padding:7px 7px calc(7px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(7,1fr)}
     .nav button{background:none;border:0;color:#8f8f96;font-size:10px;padding:7px 2px}
     .nav button .ico{display:block;font-size:20px;line-height:1.2;margin-bottom:3px}
     .nav button.active{color:var(--accent2)}
@@ -92,6 +92,7 @@
   <link rel="stylesheet" href="modern-ui.css">
   <link rel="stylesheet" href="smart-assistant.css">
   <link rel="stylesheet" href="central-ligacoes.css">
+  <link rel="stylesheet" href="dimensionador.css">
 </head>
 <body>
 <header class="top">
@@ -216,6 +217,11 @@
     <div id="pipelineStages"></div>
   </section>
 
+  <section id="dimensionador" class="section">
+    <div class="hero"><div class="eyebrow">Assistente técnico comercial</div><h2>Dimensionador de Máquinas</h2><p>Levante a operação, calcule a capacidade necessária e compare com modelos cadastrados — no campo ou depois da visita.</p></div>
+    <div id="dimensionadorApp"></div>
+  </section>
+
   <section id="settings" class="section">
     <div class="card">
       <h3>💾 Backup dos dados</h3>
@@ -255,6 +261,7 @@
   <button data-section="accounts" onclick="showSection('accounts')"><span class="ico">👥</span>Contas</button>
   <button data-section="today" onclick="showSection('today')"><span class="ico">✓</span>Ações</button>
   <button data-section="calls" onclick="showSection('calls')"><span class="ico">☎</span>Ligações</button>
+  <button data-section="dimensionador" onclick="showSection('dimensionador')"><span class="ico">⚙</span>Máquinas</button>
   <button data-section="regions" onclick="showSection('regions')"><span class="ico">🗺</span>Regiões</button>
   <button data-section="pipeline" onclick="showSection('pipeline')"><span class="ico">R$</span>Pipeline</button>
 </nav>
@@ -539,7 +546,7 @@ function deleteAccount(){
   }
 }
 function exportBackup(){
-  const backupPayload={...state,callLogs:JSON.parse(localStorage.getItem('afonso_call_logs_v1')||'[]')};
+  const backupPayload={...state,callLogs:JSON.parse(localStorage.getItem('afonso_call_logs_v1')||'[]'),dimensionadorCases:JSON.parse(localStorage.getItem('afonso_dimensionador_cases_v1')||'[]'),dimensionadorMachines:JSON.parse(localStorage.getItem('afonso_dimensionador_machines_v1')||'[]')};
   const blob=new Blob([JSON.stringify(backupPayload,null,2)],{type:'application/json'});
   const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
   a.download='backup-afonso-comercial-'+todayISO()+'.json'; a.click();
@@ -548,7 +555,7 @@ function exportBackup(){
 function importBackup(ev){
   const f=ev.target.files[0]; if(!f)return;
   const r=new FileReader();
-  r.onload=()=>{try{const payload=JSON.parse(r.result);if(Array.isArray(payload.callLogs)){localStorage.setItem('afonso_call_logs_v1',JSON.stringify(payload.callLogs));delete payload.callLogs;}state=payload;localStorage.setItem(KEY,JSON.stringify(state));renderAll();if(window.renderCentralLigacoes)window.renderCentralLigacoes();alert('Backup importado.')}catch(e){alert('Arquivo de backup inválido.')}};
+  r.onload=()=>{try{const payload=JSON.parse(r.result);if(Array.isArray(payload.callLogs)){localStorage.setItem('afonso_call_logs_v1',JSON.stringify(payload.callLogs));delete payload.callLogs;}if(Array.isArray(payload.dimensionadorCases)){localStorage.setItem('afonso_dimensionador_cases_v1',JSON.stringify(payload.dimensionadorCases));delete payload.dimensionadorCases;}if(Array.isArray(payload.dimensionadorMachines)){localStorage.setItem('afonso_dimensionador_machines_v1',JSON.stringify(payload.dimensionadorMachines));delete payload.dimensionadorMachines;}state=payload;localStorage.setItem(KEY,JSON.stringify(state));renderAll();if(window.renderCentralLigacoes)window.renderCentralLigacoes();alert('Backup importado.')}catch(e){alert('Arquivo de backup inválido.')}};
   r.readAsText(f);
 }
 function importClients(ev){
@@ -597,5 +604,6 @@ if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.se
 <script src="push-config.js"></script>
 <script src="smart-assistant.js"></script>
 <script src="central-ligacoes.js"></script>
+<script src="dimensionador.js"></script>
 </body>
 </html>
