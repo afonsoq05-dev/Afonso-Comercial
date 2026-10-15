@@ -460,16 +460,14 @@
       "specs": {
         "enginePowerCv": 141,
         "engineMaxPowerCv": 150,
-        "transmission": "Electro Command 16x16 ou 32x32 com super redutor Creeper",
-        "engineModel": "FPT NEF 4",
-        "torqueReservePct": 35
+        "engineModel": "FPT NEF 4"
       },
-      "sourceUrl": "https://agriculture.newholland.com/pt-br/brasil/news/agrishow/2026/linha-renovada-de-tratores",
-      "sourceTitle": "Linha renovada de tratores — New Holland Agriculture, 28/04/2026",
+      "sourceUrl": "https://agriculture.newholland.com/pt-br/brasil/produtos/tratores/trator-t6-140-eletro-command",
+      "sourceTitle": "Trator T6.140 Eletro Command — New Holland Agriculture Brasil",
       "checkedAt": "2026-10-15",
       "confidence": "fabricante_confirmado",
       "evidenceType": "notícia oficial do fabricante",
-      "notes": "A página oficial informa potência nominal de 141 cv, reserva de torque de até 35% e transmissão 16x16/32x32. Confirmar ficha técnica do modelo/configuração antes de compatibilidade."
+      "notes": "Potência nominal publicada de 141 cv e máxima de 150 cv. Demais especificações devem ser confirmadas na ficha técnica da configuração e ano exatos."
     },
     {
       "id": "planter-johndeere-1107-br",
@@ -560,6 +558,51 @@
       "confidence": "fabricante_confirmado",
       "evidenceType": "site oficial do fabricante",
       "notes": "A potência recomendada varia conforme velocidade, solo, umidade, profundidade e ferramentas de fertilização. A página lista peso de 5.150 kg. Conferir configuração exata e ficha completa antes de validar trator."
+    },
+    {
+      "id": "tractor-caseih-farmall-100c-hilo-br",
+      "category": "tractor",
+      "manufacturer": "Case IH",
+      "model": "Farmall 100C HiLo",
+      "configuration": "Brasil; transmissão HiLo 24x24 conforme página oficial consultada",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 100,
+        "maxTorqueNm": 400,
+        "torqueReservePct": 33,
+        "transmission": "HiLo 24x24",
+        "engineModel": "FPT S8000",
+        "engineDisplacementCm3": 3900,
+        "cylinders": 4
+      },
+      "sourceUrl": "https://www.caseih.com/pt-br/brasil/produtos/tratores/farmall-c/farmall-100c-hilo",
+      "sourceTitle": "Farmall 100C HiLo — Case IH Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "Dados publicados para a configuração HiLo. Não transferir automaticamente para a versão mecânica; conferir ano, configuração, hidráulico, levante e TDP antes de avaliar implementos."
+    },
+    {
+      "id": "tractor-caseih-farmall-110m-br",
+      "category": "tractor",
+      "manufacturer": "Case IH",
+      "model": "Farmall 110 M",
+      "configuration": "Brasil; ActiveDrive 4 conforme página oficial consultada",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 112,
+        "transmission": "SPS 16x16 ActiveDrive 4",
+        "hitchLiftKg": 5400,
+        "remoteValves": 3
+      },
+      "sourceUrl": "https://www.caseih.com/pt-br/brasil/produtos/tratores/farmall-m/trator-farmall-110-m",
+      "sourceTitle": "Trator Farmall 110 M — Case IH Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "A página informa motor S800 Tier 3 de 112 cv, transmissão SPS 16x16 ActiveDrive 4, levante de 5.400 kg no olhal e três válvulas de controle remoto. Confirmar versão/ano e ficha completa antes de recomendar implemento."
     }
   ],
   "compatibilityRecords": [],
@@ -575,7 +618,13 @@
       "action": "add_verified_planters",
       "count": 3,
       "details": "Adicionadas plantadeiras John Deere 1107, 1109 e 1113 com número de linhas, espaçamentos e faixa de potência recomendada da página oficial. Não foi criada compatibilidade automática com tratores."
+    },
+    {
+      "date": "2026-10-15",
+      "action": "expand_verified_tractor_catalog",
+      "count": 2,
+      "details": "Incluídos registros Case IH Farmall 100C HiLo e 110 M com dados rastreáveis em páginas oficiais. Sem criar relações automáticas de compatibilidade."
     }
   ],
-  "note": "Base inicial estrutural. Nenhum modelo específico está marcado como verificado até ser cadastrado com fonte rastreável."
+  "note": "Base técnica em expansão. Registros com fontes rastreáveis não implicam compatibilidade automática; confirmar modelo, ano, versão e requisitos do implemento antes de recomendar conjuntos."
 }
