@@ -762,6 +762,81 @@
       "confidence": "fabricante_confirmado",
       "evidenceType": "catálogo oficial do fabricante",
       "notes": "A página oficial publica faixa de largura de 5,5 a 10,4 m para a 7305 TANDEM. Não há potência requerida específica confirmada neste registro; validar trator recomendado, configuração, solo e condições de operação na documentação do modelo."
+    },
+    {
+      "id": "planter-kuhn-pg-global",
+      "category": "planter",
+      "manufacturer": "KUHN",
+      "model": "PG",
+      "configuration": "Plantadeira mecânica de precisão; gama global, confirmar variante e disponibilidade regional",
+      "modelYear": null,
+      "market": "Global; confirmar disponibilidade no Brasil",
+      "specs": {
+        "rowCount": [
+          7,
+          17
+        ],
+        "plantingSystem": "Mecânico de precisão",
+        "meteringSystem": "Unidades dosadoras mecânicas",
+        "driveType": "Montada"
+      },
+      "sourceUrl": "https://www.kuhn.com/en/crop/seed-drills/precision-seed-drills/precision-mechanical-seed-drills/pg",
+      "sourceTitle": "PG — KUHN",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial do fabricante",
+      "notes": "A página oficial descreve modelos de 7 a 17 linhas. Não há potência mínima universal registrada neste item; confirmar largura, espaçamento, peso, requisitos hidráulicos e potência na ficha da configuração exata antes de selecionar trator."
+    },
+    {
+      "id": "planter-kuhn-ppk-global",
+      "category": "planter",
+      "manufacturer": "KUHN",
+      "model": "PPK",
+      "configuration": "Plantadeira mecânica de precisão; gama global, confirmar variante e disponibilidade regional",
+      "modelYear": null,
+      "market": "Global; confirmar disponibilidade no Brasil",
+      "specs": {
+        "rowCount": [
+          3,
+          6
+        ],
+        "plantingSystem": "Mecânico de precisão",
+        "meteringSystem": "Unidades dosadoras mecânicas",
+        "driveType": "Montada"
+      },
+      "sourceUrl": "https://www.kuhn.com/en/crop/seed-drills/precision-seed-drills/precision-mechanical-seed-drills/ppk",
+      "sourceTitle": "PPK — KUHN",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial do fabricante",
+      "notes": "A KUHN descreve a PPK em modelos de 3 a 6 linhas. Espaçamento, massa, potência requerida e opções variam conforme configuração; não inferir compatibilidade sem ficha exata."
+    },
+    {
+      "id": "planter-kuhn-planter-3-global",
+      "category": "planter",
+      "manufacturer": "KUHN",
+      "model": "PLANTER 3",
+      "configuration": "Família de plantadeiras pneumáticas de precisão; múltiplos chassis e configurações",
+      "modelYear": null,
+      "market": "Global; confirmar disponibilidade no Brasil",
+      "specs": {
+        "rowCount": [
+          3,
+          18
+        ],
+        "rowSpacingCm": [
+          25,
+          80
+        ],
+        "plantingSystem": "Pneumático de precisão",
+        "meteringSystem": "Distribuição por depressão de ar"
+      },
+      "sourceUrl": "https://www.kuhn.com/en/crop/seed-drills/precision-seed-drills/precision-air-seed-drills/planter-3",
+      "sourceTitle": "PLANTER 3 — KUHN",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial do fabricante",
+      "notes": "A página descreve diferentes famílias de chassis, com configurações de 3 a 18 linhas conforme a família e espaçamentos de 25 a 80 cm. Confirmar o chassis, número de linhas, largura de transporte, peso, requisitos hidráulicos e potência na documentação da unidade específica."
     }
   ],
   "compatibilityRecords": [],
@@ -795,6 +870,12 @@
       "action": "add_official_kuhn_implement_records",
       "count": 4,
       "details": "Adicionados pulverizadores de arrasto METRIS 2 e LEXIS, grade rotativa HRB 122–202 e grade de discos 7305 TANDEM com faixas publicadas em páginas oficiais. Registros globais exigem confirmação de disponibilidade/configuração regional."
+    },
+    {
+      "date": "2026-10-15",
+      "action": "add_kuhn_precision_planters",
+      "count": 3,
+      "details": "Adicionadas famílias KUHN PG, PPK e PLANTER 3 a partir de páginas oficiais. Variantes mantidas como famílias; sem potência mínima inventada ou compatibilidade automática."
     }
   ],
   "note": "Base técnica em expansão. Registros com fontes rastreáveis não implicam compatibilidade automática; confirmar modelo, ano, versão, disponibilidade regional e requisitos do implemento antes de recomendar conjuntos."
