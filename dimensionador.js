@@ -13,7 +13,7 @@ esteiras:{label:'Trator de esteiras',group:'Pesada',fields:[['volume','Volume es
 rolo:{label:'Rolo compactador',group:'Pesada',fields:[['area','Área a compactar','m²','n'],['prazo','Prazo disponível','h','n'],['largura','Largura do tambor','m','n'],['velocidade','Velocidade de trabalho','km/h','n'],['passadas','Número de passadas','passadas','n',6],['eficiencia','Eficiência operacional','%','n',70],['camada','Espessura da camada','cm','n'],['material','Material','','s',['Solo','Brita / base','Asfalto']]],formula:'roller'}
 };
 let tab='novo', result=null;
-const read=(k,fb)=>{try{const x=JSON.parse(localStorage.getItem(k)||'null');return Array.isArray(x)?x:fb}catch(e){return fb}};
+const read=(k,fb)=>{try{const x=JSON.parse(localStorage.getItem(k)||'null');return x===null?fb:x}catch(e){return fb}};
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const n=id=>{const e=document.getElementById('dim_'+id);if(!e||e.value==='')return null;const x=Number(e.value);return Number.isFinite(x)?x:null};
