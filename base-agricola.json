@@ -664,6 +664,104 @@
       "confidence": "fabricante_confirmado",
       "evidenceType": "ficha técnica oficial do fabricante",
       "notes": "A ficha apresenta opções de transmissão e vazão hidráulica. Confirmar a configuração adquirida, pois opcionais e equipamentos podem alterar os dados aplicáveis."
+    },
+    {
+      "id": "sprayer-kuhn-metris-2-global",
+      "category": "towed_sprayer",
+      "manufacturer": "KUHN",
+      "model": "METRIS 2",
+      "configuration": "Linha global; versões e disponibilidade dependem do mercado e do ano",
+      "modelYear": null,
+      "market": "Global; confirmar disponibilidade no Brasil",
+      "specs": {
+        "tankCapacityL": [
+          3200,
+          4100
+        ],
+        "boomWidthM": [
+          18,
+          38
+        ],
+        "driveType": "Arrasto"
+      },
+      "sourceUrl": "https://www.kuhn.com/en/crop/sprayers/trailed-sprayers/metris-2",
+      "sourceTitle": "METRIS 2 — KUHN",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial do fabricante",
+      "notes": "A KUHN publica tanque de 3.200 ou 4.100 L e barras de 18 a 38 m para a linha. Confirmar configuração, requisitos de tração, hidráulico, bomba e disponibilidade regional na ficha/manual exatos."
+    },
+    {
+      "id": "sprayer-kuhn-lexis-global",
+      "category": "towed_sprayer",
+      "manufacturer": "KUHN",
+      "model": "LEXIS",
+      "configuration": "Linha global; capacidades e barras variam conforme versão",
+      "modelYear": null,
+      "market": "Global; confirmar disponibilidade no Brasil",
+      "specs": {
+        "tankCapacityL": [
+          2400,
+          3000,
+          3800
+        ],
+        "boomWidthM": [
+          18,
+          28
+        ],
+        "driveType": "Arrasto"
+      },
+      "sourceUrl": "https://www.kuhn.com/en/crop/sprayers/trailed-sprayers/lexis",
+      "sourceTitle": "LEXIS — KUHN",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial do fabricante",
+      "notes": "A página oficial informa tanques de 2.400, 3.000 ou 3.800 L e barras de 18 a 28 m. Confirmar requisitos de tração, hidráulico, bomba, versão e mercado antes de dimensionar trator."
+    },
+    {
+      "id": "implement-kuhn-hrb-122-202-global",
+      "category": "other",
+      "manufacturer": "KUHN",
+      "model": "HRB 122 / 152 / 182 / 202",
+      "configuration": "Grade rotativa; modelos e disponibilidade variam por mercado",
+      "modelYear": null,
+      "market": "Global; confirmar disponibilidade no Brasil",
+      "specs": {
+        "workingWidthM": [
+          1.2,
+          2.1
+        ],
+        "maxTractorPowerHp": 80,
+        "implementType": "Grade rotativa para preparo de leito de semeadura"
+      },
+      "sourceUrl": "https://www.kuhn.com/en/crop/tillage-implements/seedbed-preparation-tools/power-harrows",
+      "sourceTitle": "Power Harrows — KUHN",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "catálogo oficial do fabricante",
+      "notes": "A KUHN descreve a gama HRB 122–202 com larguras de 1,20 a 2,10 m para tratores de até 80 hp. A exigência exata depende do modelo, solo, profundidade e combinação com semeadora; não converter essa indicação em compatibilidade automática."
+    },
+    {
+      "id": "disc-harrow-kuhn-7305-tandem-global",
+      "category": "disc_harrow",
+      "manufacturer": "KUHN",
+      "model": "7305 TANDEM",
+      "configuration": "Grade de discos para acabamento de leito de semeadura; gama global",
+      "modelYear": null,
+      "market": "Global; confirmar disponibilidade no Brasil",
+      "specs": {
+        "workingWidthM": [
+          5.5,
+          10.4
+        ],
+        "implementType": "Grade tandem de discos para acabamento"
+      },
+      "sourceUrl": "https://www.kuhn.com/en/crop/tillage-implements/disc-harrows",
+      "sourceTitle": "Disc Harrows — KUHN",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "catálogo oficial do fabricante",
+      "notes": "A página oficial publica faixa de largura de 5,5 a 10,4 m para a 7305 TANDEM. Não há potência requerida específica confirmada neste registro; validar trator recomendado, configuração, solo e condições de operação na documentação do modelo."
     }
   ],
   "compatibilityRecords": [],
@@ -691,7 +789,13 @@
       "action": "add_johndeere_tractors_official_specs",
       "count": 2,
       "details": "Adicionados John Deere 5075E e 6100J a partir de páginas/fichas oficiais brasileiras; configurações alternativas registradas como opções, não como uma única configuração garantida."
+    },
+    {
+      "date": "2026-10-15",
+      "action": "add_official_kuhn_implement_records",
+      "count": 4,
+      "details": "Adicionados pulverizadores de arrasto METRIS 2 e LEXIS, grade rotativa HRB 122–202 e grade de discos 7305 TANDEM com faixas publicadas em páginas oficiais. Registros globais exigem confirmação de disponibilidade/configuração regional."
     }
   ],
-  "note": "Base técnica em expansão. Registros com fontes rastreáveis não implicam compatibilidade automática; confirmar modelo, ano, versão e requisitos do implemento antes de recomendar conjuntos."
+  "note": "Base técnica em expansão. Registros com fontes rastreáveis não implicam compatibilidade automática; confirmar modelo, ano, versão, disponibilidade regional e requisitos do implemento antes de recomendar conjuntos."
 }
