@@ -13,7 +13,7 @@ esteiras:{label:'Trator de esteiras',group:'Pesada',fields:[['volume','Volume es
 rolo:{label:'Rolo compactador',group:'Pesada',fields:[['area','Área a compactar','m²','n'],['prazo','Prazo disponível','h','n'],['largura','Largura do tambor','m','n'],['velocidade','Velocidade de trabalho','km/h','n'],['passadas','Número de passadas','passadas','n',6],['eficiencia','Eficiência operacional','%','n',70],['camada','Espessura da camada','cm','n'],['material','Material','','s',['Solo','Brita / base','Asfalto']]],formula:'roller'}
 };
 let tab='novo', result=null, technicalBase=null;
-fetch('./base-agricola.json?v=20261015d').then(r=>r.ok?r.json():null).then(data=>{technicalBase=data;if(tab==='catalogo')catalog()}).catch(()=>{technicalBase=null});
+fetch('./base-agricola.json?v=20261015f').then(r=>r.ok?r.json():null).then(data=>{technicalBase=data;if(tab==='catalogo')catalog()}).catch(()=>{technicalBase=null});
 const read=(k,fb)=>{try{const x=JSON.parse(localStorage.getItem(k)||'null');return x===null?fb:x}catch(e){return fb}};
 const save=(k,v)=>localStorage.setItem(k,JSON.stringify(v));
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
