@@ -366,6 +366,14 @@
       "url": "https://www.kuhn.com/en/agricultural-machinery",
       "type": "catálogo oficial do fabricante",
       "note": "Catálogo de implementos; o próprio fabricante alerta que alguns modelos não estão disponíveis em todos os países, então confirmar mercado e configuração."
+    },
+    {
+      "id": "baldan_br",
+      "manufacturer": "Baldan",
+      "market": "Brasil",
+      "url": "https://baldan.com.br/",
+      "type": "site oficial e fichas técnicas do fabricante",
+      "note": "Famílias e faixas consolidadas apenas quando publicadas; confirmar configuração e potência requerida no manual do modelo exato."
     }
   ],
   "machines": [
@@ -837,6 +845,142 @@
       "confidence": "fabricante_confirmado",
       "evidenceType": "página oficial do fabricante",
       "notes": "A página descreve diferentes famílias de chassis, com configurações de 3 a 18 linhas conforme a família e espaçamentos de 25 a 80 cm. Confirmar o chassis, número de linhas, largura de transporte, peso, requisitos hidráulicos e potência na documentação da unidade específica."
+    },
+    {
+      "id": "planter-baldan-donna-br",
+      "category": "planter",
+      "manufacturer": "Baldan",
+      "model": "DONNA",
+      "configuration": "Plantadeira de precisão pantográfica; versões de 11, 13 ou 15 linhas; conferir configuração exata",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "rowCount": [
+          11,
+          13,
+          15
+        ],
+        "rowSpacingCm": [
+          45,
+          50
+        ],
+        "workingWidthM": [
+          4.95,
+          5.85,
+          6.75
+        ],
+        "massKg": [
+          5235,
+          6135
+        ],
+        "recommendedPowerRangeCv": [
+          105,
+          195
+        ],
+        "plantingSystem": "Precisão pantográfica",
+        "hopperCapacityL": {
+          "fertilizer": [
+            1500,
+            1860,
+            2250
+          ],
+          "thirdSeed": [
+            975,
+            1170,
+            1410
+          ],
+          "mainSeed": [
+            620
+          ]
+        }
+      },
+      "sourceUrl": "https://baldan.com.br/produtos/donna-series-11-13-15-linhas/",
+      "sourceTitle": "DONNA — Baldan Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial e tabela técnica do fabricante",
+      "notes": "Faixas consolidadas da família DONNA; peso, largura e potência variam por número de linhas e opcionais. Confirmar versão, espaçamento, inoculante e potência no manual da unidade específica."
+    },
+    {
+      "id": "planter-baldan-pp-solo-g2-br",
+      "category": "planter",
+      "manufacturer": "Baldan",
+      "model": "PP SOLO-G2",
+      "configuration": "Plantadeira de precisão pantográfica; versões de 11, 13 ou 15 linhas",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "rowCount": [
+          11,
+          13,
+          15
+        ],
+        "rowSpacingCm": [
+          45,
+          50,
+          76
+        ],
+        "workingWidthM": [
+          4.95,
+          5.85,
+          6.75
+        ],
+        "massKg": [
+          5235,
+          6135
+        ],
+        "recommendedPowerRangeCv": [
+          105,
+          195
+        ],
+        "workingDepthCm": [
+          0,
+          15
+        ],
+        "plantingSystem": "Precisão pantográfica",
+        "meteringSystem": "Controle preciso de profundidade (CPP)"
+      },
+      "sourceUrl": "https://baldan.com.br/produtos/pp-solo-g2/",
+      "sourceTitle": "PP SOLO-G2 — Baldan Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial e tabela técnica do fabricante",
+      "notes": "Faixa da família: 11–15 linhas, espaçamentos publicados de 45, 50 e 76 cm e potência aproximada dependente da configuração e das condições de plantio. Confirmar massa, espaçamento e potência exatos no catálogo/manual da unidade."
+    },
+    {
+      "id": "planter-baldan-plb-directa-br",
+      "category": "planter",
+      "manufacturer": "Baldan",
+      "model": "PLB Directa",
+      "configuration": "Semeadora de linhas para plantio direto; versões de 2 a 6 linhas e múltiplos espaçamentos",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "rowCount": [
+          2,
+          6
+        ],
+        "workingWidthM": [
+          2.3,
+          4.9
+        ],
+        "massKg": [
+          449,
+          1136
+        ],
+        "recommendedPowerRangeCv": [
+          40,
+          95
+        ],
+        "plantingSystem": "Plantio direto",
+        "implementType": "Semeadora de linhas"
+      },
+      "sourceUrl": "https://baldan.com.br/produtos/plb-directa-semeadora-de-linhas-baldan/",
+      "sourceTitle": "PLB Directa — Baldan Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "página oficial e tabela técnica do fabricante",
+      "notes": "Família com configurações diferentes: potência aproximada publicada de 40 a 95 cv conforme número de linhas e espaçamento. Largura útil, largura total e massa variam por versão; confirmar o modelo exato antes de dimensionar."
     }
   ],
   "compatibilityRecords": [],
@@ -876,6 +1020,12 @@
       "action": "add_kuhn_precision_planters",
       "count": 3,
       "details": "Adicionadas famílias KUHN PG, PPK e PLANTER 3 a partir de páginas oficiais. Variantes mantidas como famílias; sem potência mínima inventada ou compatibilidade automática."
+    },
+    {
+      "date": "2026-10-15",
+      "action": "add_baldan_brazilian_planters",
+      "count": 3,
+      "details": "Adicionadas as famílias DONNA, PP SOLO-G2 e PLB Directa a partir de páginas/tabelas técnicas oficiais brasileiras. Faixas de família não substituem ficha da configuração exata e não geram compatibilidade automática."
     }
   ],
   "note": "Base técnica em expansão. Registros com fontes rastreáveis não implicam compatibilidade automática; confirmar modelo, ano, versão, disponibilidade regional e requisitos do implemento antes de recomendar conjuntos."
