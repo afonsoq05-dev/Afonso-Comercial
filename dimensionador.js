@@ -45,8 +45,10 @@ if(type==='semeadora'||type==='trator'){
  const minPower=n('potenciaMin'), maxPower=n('potenciaMax'), model=v('implementoModelo').trim();
  const missingTech=[];
  if(!model) missingTech.push(type==='semeadora'?'marca/modelo exato da plantadeira':'marca/modelo do implemento');
+ if(type==='semeadora'&&!(n('linhas')>0)) missingTech.push('número de linhas da plantadeira');
+ if(type==='semeadora'&&!(n('espacamento')>0)) missingTech.push('espaçamento entre linhas');
  if(!(minPower>0)) missingTech.push('potência mínima indicada no manual/ficha técnica');
- if(!(maxPower>0)) missingTech.push('limite superior da faixa indicada pelo fabricante');
+ if(!(maxPower>0)) missingTech.push('limite superior da faixa indicada no manual/ficha técnica');
  if(minPower>0&&maxPower>0&&maxPower<minPower){
    warnings.push('A faixa de potência está inconsistente: o limite superior é menor que o mínimo. Confira os dados do manual.');
    missingTech.push('corrigir a faixa de potência informada');
