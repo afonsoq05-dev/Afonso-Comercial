@@ -603,6 +603,67 @@
       "confidence": "fabricante_confirmado",
       "evidenceType": "site oficial do fabricante",
       "notes": "A página informa motor S800 Tier 3 de 112 cv, transmissão SPS 16x16 ActiveDrive 4, levante de 5.400 kg no olhal e três válvulas de controle remoto. Confirmar versão/ano e ficha completa antes de recomendar implemento."
+    },
+    {
+      "id": "tractor-johndeere-5075e-br",
+      "category": "tractor",
+      "manufacturer": "John Deere",
+      "model": "5075E",
+      "configuration": "Brasil; versões plataforma aberta ou cabinada; transmissão depende da versão",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 75,
+        "cylinders": 3,
+        "maxTorqueNm": 275,
+        "torqueReservePct": 26,
+        "transmission": [
+          "Sincronizada 9x3",
+          "PowrReverser 12x12"
+        ],
+        "hitchLiftKg": 1800,
+        "hydraulicFlowLMin": 43,
+        "remoteValves": 1
+      },
+      "sourceUrl": "https://www.deere.com.br/pt/tratores/s%C3%A9rie-5e-pequenos/5075e/",
+      "sourceTitle": "5075E — John Deere Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "A página oficial distingue configurações de plataforma e cabine, que podem mudar a transmissão. Levante hidráulico categoria II de 1.800 kg e VCR com vazão de até 43 L/min conforme a página. Confirmar ano e configuração exatos."
+    },
+    {
+      "id": "tractor-johndeere-6100j-br",
+      "category": "tractor",
+      "manufacturer": "John Deere",
+      "model": "6100J",
+      "configuration": "Brasil; configuração conforme ficha técnica oficial da Série 6J",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 100,
+        "ptoPowerCv": 85,
+        "cylinders": 4,
+        "engineDisplacementL": 4.5,
+        "maxTorqueNm": 393,
+        "torqueReservePct": 28,
+        "transmission": [
+          "SyncroPlus 12x4",
+          "PowrQuad 16x16"
+        ],
+        "hitchLiftKg": 3800,
+        "hydraulicFlowLMin": [
+          65,
+          100
+        ],
+        "fuelTankL": 185
+      },
+      "sourceUrl": "https://www.deere.com.br/pt/tratores/m%C3%A9dio-cabinado-4x4/6100j-100cv/",
+      "sourceTitle": "6100J — John Deere Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "ficha técnica oficial do fabricante",
+      "notes": "A ficha apresenta opções de transmissão e vazão hidráulica. Confirmar a configuração adquirida, pois opcionais e equipamentos podem alterar os dados aplicáveis."
     }
   ],
   "compatibilityRecords": [],
@@ -624,6 +685,12 @@
       "action": "expand_verified_tractor_catalog",
       "count": 2,
       "details": "Incluídos registros Case IH Farmall 100C HiLo e 110 M com dados rastreáveis em páginas oficiais. Sem criar relações automáticas de compatibilidade."
+    },
+    {
+      "date": "2026-10-15",
+      "action": "add_johndeere_tractors_official_specs",
+      "count": 2,
+      "details": "Adicionados John Deere 5075E e 6100J a partir de páginas/fichas oficiais brasileiras; configurações alternativas registradas como opções, não como uma única configuração garantida."
     }
   ],
   "note": "Base técnica em expansão. Registros com fontes rastreáveis não implicam compatibilidade automática; confirmar modelo, ano, versão e requisitos do implemento antes de recomendar conjuntos."
