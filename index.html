@@ -596,7 +596,7 @@ function resetApp(){
 }
 function renderAll(){renderHeader();renderKPIs();renderCoverage();renderRoutePlan();renderRadar();renderGoals();renderAccounts();renderToday();renderRegions();renderPipeline();}
 initFormOptions(); renderAll();
-if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));
+if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js',{updateViaCache:'none'}).then(reg=>reg.update()).catch(()=>{}));
 </script>
 <script src="elite-map.js"></script>
 <script src="city-search.js"></script>
@@ -604,6 +604,6 @@ if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.se
 <script src="push-config.js"></script>
 <script src="smart-assistant.js"></script>
 <script src="central-ligacoes.js"></script>
-<script src="dimensionador.js?v=20261015e"></script>
+<script src="dimensionador.js?v=20261015g"></script>
 </body>
 </html>
