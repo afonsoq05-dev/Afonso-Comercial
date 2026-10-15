@@ -470,6 +470,96 @@
       "confidence": "fabricante_confirmado",
       "evidenceType": "notícia oficial do fabricante",
       "notes": "A página oficial informa potência nominal de 141 cv, reserva de torque de até 35% e transmissão 16x16/32x32. Confirmar ficha técnica do modelo/configuração antes de compatibilidade."
+    },
+    {
+      "id": "planter-johndeere-1107-br",
+      "category": "planter",
+      "manufacturer": "John Deere",
+      "model": "1107",
+      "configuration": "Plantadeira série 1100; página oficial informa configurações de 6 e 7 linhas",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "rowCount": [
+          6,
+          7
+        ],
+        "rowSpacingCm": [
+          45,
+          50
+        ],
+        "recommendedPowerRangeCv": [
+          70,
+          107
+        ],
+        "massKg": 2896
+      },
+      "sourceUrl": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-1107-6-linhas-7-linhas/",
+      "sourceTitle": "Plantadeira 1107 — John Deere Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "A potência recomendada varia conforme velocidade, solo, umidade, profundidade e ferramentas de fertilização. Conferir a configuração exata e a ficha completa antes de validar trator."
+    },
+    {
+      "id": "planter-johndeere-1109-br",
+      "category": "planter",
+      "manufacturer": "John Deere",
+      "model": "1109",
+      "configuration": "Plantadeira série 1100; página oficial informa configurações de 8 e 9 linhas",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "rowCount": [
+          8,
+          9
+        ],
+        "rowSpacingCm": [
+          45,
+          50
+        ],
+        "recommendedPowerRangeCv": [
+          90,
+          136
+        ],
+        "massKg": 3723
+      },
+      "sourceUrl": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-1109-8-linhas-9-linhas/",
+      "sourceTitle": "Plantadeira 1109 — John Deere Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "A potência recomendada varia conforme velocidade, solo, umidade, profundidade e ferramentas de fertilização. Conferir a configuração exata e a ficha completa antes de validar trator."
+    },
+    {
+      "id": "planter-johndeere-1113-br",
+      "category": "planter",
+      "manufacturer": "John Deere",
+      "model": "1113",
+      "configuration": "Plantadeira série 1100; página oficial informa configurações de 12 ou 13 linhas",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "rowCount": [
+          12,
+          13
+        ],
+        "rowSpacingCm": [
+          45,
+          50
+        ],
+        "recommendedPowerRangeCv": [
+          120,
+          197
+        ],
+        "massKg": 5150
+      },
+      "sourceUrl": "https://www.deere.com.br/pt/solu%C3%A7%C3%B5es-para-plantio/plantadeira-1113-12-linhas-13-linhas/",
+      "sourceTitle": "Plantadeira 1113 — John Deere Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "A potência recomendada varia conforme velocidade, solo, umidade, profundidade e ferramentas de fertilização. A página lista peso de 5.150 kg. Conferir configuração exata e ficha completa antes de validar trator."
     }
   ],
   "compatibilityRecords": [],
@@ -479,6 +569,12 @@
       "action": "add_initial_verified_tractor_batch",
       "count": 3,
       "details": "Adicionados modelos com dados rastreáveis em fontes oficiais; campos não confirmados foram omitidos e nenhuma compatibilidade foi inferida."
+    },
+    {
+      "date": "2026-10-15",
+      "action": "add_verified_planters",
+      "count": 3,
+      "details": "Adicionadas plantadeiras John Deere 1107, 1109 e 1113 com número de linhas, espaçamentos e faixa de potência recomendada da página oficial. Não foi criada compatibilidade automática com tratores."
     }
   ],
   "note": "Base inicial estrutural. Nenhum modelo específico está marcado como verificado até ser cadastrado com fonte rastreável."
