@@ -394,9 +394,92 @@
       "confidence": "fabricante_confirmado",
       "evidenceType": "site oficial do fabricante",
       "notes": "Campos não publicados ou não confirmados permanecem ausentes. Validar versão exata e ficha técnica completa antes de recomendar implemento."
+    },
+    {
+      "id": "tractor-caseih-farmall-90-br",
+      "category": "tractor",
+      "manufacturer": "Case IH",
+      "model": "Farmall 90",
+      "configuration": "Brasil; versão plataformada ou cabinada precisa ser confirmada",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 90,
+        "transmission": "Sincronizada 12x12 ou 20x12",
+        "engineDisplacementCm3": 3908,
+        "cylinders": 4,
+        "maxTorqueNm": 330,
+        "torqueReservePct": 26,
+        "fuelTankL": {
+          "platform": 161,
+          "cab": 170
+        }
+      },
+      "sourceUrl": "https://www.caseih.com/pt-br/brasil/produtos/tratores/farmall/farmall-90",
+      "sourceTitle": "Trator Farmall 90 — Case IH Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "Potência nominal conforme ISO TR 14396. Conferir versão exata e ficha técnica completa antes de recomendar implemento."
+    },
+    {
+      "id": "tractor-caseih-farmall-100-br",
+      "category": "tractor",
+      "manufacturer": "Case IH",
+      "model": "Farmall 100",
+      "configuration": "Brasil; versão plataformada ou cabinada precisa ser confirmada",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 101,
+        "transmission": "Sincronizada 12x12 ou 20x12",
+        "engineDisplacementCm3": 3908,
+        "cylinders": 4,
+        "maxTorqueNm": 380,
+        "torqueReservePct": 27,
+        "fuelTankL": {
+          "platform": 161,
+          "cab": 170
+        }
+      },
+      "sourceUrl": "https://www.caseih.com/pt-br/brasil/produtos/tratores/farmall/farmall-100",
+      "sourceTitle": "Trator Farmall 100 — Case IH Brasil",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "site oficial do fabricante",
+      "notes": "Potência nominal conforme ISO TR 14396. Conferir versão exata e ficha técnica completa antes de recomendar implemento."
+    },
+    {
+      "id": "tractor-newholland-t6-140-electro-command-br",
+      "category": "tractor",
+      "manufacturer": "New Holland Agriculture",
+      "model": "T6.140 Electro Command",
+      "configuration": "Brasil; configuração publicada na página oficial do modelo",
+      "modelYear": null,
+      "market": "Brasil",
+      "specs": {
+        "enginePowerCv": 141,
+        "engineMaxPowerCv": 150,
+        "transmission": "Electro Command 16x16 ou 32x32 com super redutor Creeper",
+        "engineModel": "FPT NEF 4",
+        "torqueReservePct": 35
+      },
+      "sourceUrl": "https://agriculture.newholland.com/pt-br/brasil/news/agrishow/2026/linha-renovada-de-tratores",
+      "sourceTitle": "Linha renovada de tratores — New Holland Agriculture, 28/04/2026",
+      "checkedAt": "2026-10-15",
+      "confidence": "fabricante_confirmado",
+      "evidenceType": "notícia oficial do fabricante",
+      "notes": "A página oficial informa potência nominal de 141 cv, reserva de torque de até 35% e transmissão 16x16/32x32. Confirmar ficha técnica do modelo/configuração antes de compatibilidade."
     }
   ],
   "compatibilityRecords": [],
-  "auditLog": [],
+  "auditLog": [
+    {
+      "date": "2026-10-15",
+      "action": "add_initial_verified_tractor_batch",
+      "count": 3,
+      "details": "Adicionados modelos com dados rastreáveis em fontes oficiais; campos não confirmados foram omitidos e nenhuma compatibilidade foi inferida."
+    }
+  ],
   "note": "Base inicial estrutural. Nenhum modelo específico está marcado como verificado até ser cadastrado com fonte rastreável."
 }
